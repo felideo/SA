@@ -1,0 +1,115 @@
+<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			<h3 class="panel-title">Curso/Turma/Disciplina/Professor</h3>
+			<button id="botao_clone_ctdp" type="button" class="btn btn-primary pull-right lazy_view_remove" style="margin-top: -25px;">Adicionar Curso/Turma/Disciplina/Professor</button>
+		</div>
+		<div class="panel-body">
+			<div id="conteiner_clone_ctdp" class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">
+			</div>
+			<div id="nenhum_clone_ctdp_adicionado" class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">
+			    <label>Nenhum Curso/Turma/Disciplina/Professor adicionado</label>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div id="clonar_ctdp" class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12" data-id_clone_ctdp="$id_clone_ctdp" style="display: none;">
+	<div id="box_clone_ctdp_$id_clone_ctdp" class="panel panel-default">
+		<div class="panel-heading">
+			<h3 class="panel-title">Curso/Turma/Disciplina/Professor $id_clone_ctdp</h3>
+		</div>
+		<div class="panel-body">
+		  	<div class="form-group col-xs-12 col-sm-12 col-md-9 col-lg-9">
+				<label>Curso * :</label>
+				<select id="curso_ctdp_$id_clone_ctdp" style="width: 100%" name="{$modulo.modulo}[ctdp][$id_clone_ctdp][id_curso]" required disabled>
+					<option></option>
+					{foreach from=$cursos key=indece item=curso}
+						<option value="{$curso.id}">{$curso.curso}</option>
+					{/foreach}
+				</select>
+		  	</div>
+
+	  		<div class="form-group col-xs-12 col-sm-12 col-md-3 col-lg-3">
+				<label>Turma * :</label>
+				<select id="turma_ctdp_$id_clone_ctdp" style="width: 100%" name="{$modulo.modulo}[ctdp][$id_clone_ctdp][id_turma]" required disabled>
+					<option></option>
+					{foreach from=$turmas key=indece item=turma}
+						<option value="{$turma.id}">{$turma.semestre}{$turma.turma} {$turma.periodo}</option>
+					{/foreach}
+				</select>
+		  	</div>
+
+		  	<div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">
+				<label>Disciplina * :</label>
+				<select id="disciplina_ctdp_$id_clone_ctdp" style="width: 100%" name="{$modulo.modulo}[ctdp][$id_clone_ctdp][id_disciplina]" required disabled>
+					<option></option>
+					{foreach from=$disciplinas key=indece item=disciplina}
+						<option value="{$disciplina.id}">{$disciplina.disciplina}</option>
+					{/foreach}
+				</select>
+		  	</div>
+
+		  	<div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">
+				<label>Professor * :</label>
+				<select id="professor_ctdp_$id_clone_ctdp" style="width: 100%" name="{$modulo.modulo}[ctdp][$id_clone_ctdp][id_professor]" required disabled>
+					<option></option>
+					{foreach from=$professores key=indece item=professor}
+						<option value="{$professor.id}">{$professor.nome}</option>
+					{/foreach}
+				</select>
+		  	</div>
+		</div>
+
+		<div class="panel-footer">
+			<button id="remover_clone_ctdp_$id_clone_ctdp" type="button" class="btn btn-danger pull-right remove-box lazy_view_remove">Remover Curso/Turma/Disciplina/Professor</button>
+        	<div class="clearfix"></div>
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        $('#botao_clone_ctdp').on('click', function(){
+            clone_ctdp_box();
+        });
+    });
+
+	function clone_ctdp_box(){
+		var container_clone    = $('#conteiner_clone_ctdp');
+	    var id_container_clone = ($("#conteiner_clone_ctdp > div").length) + 1;
+
+	    $('#nenhum_clone_ctdp_adicionado').hide();
+
+	    var clone = $('#clonar_ctdp').html();
+	    clone     = clone.replaceAll("$id_clone_ctdp", id_container_clone);
+	    clone     = clone.replaceAll("disabled", "", clone);
+
+	    container_clone.prepend(clone);
+
+    	$('#curso_ctdp_' + id_container_clone).select2({});
+    	$('#turma_ctdp_' + id_container_clone).select2({});
+    	$('#disciplina_ctdp_' + id_container_clone).select2({});
+
+	    $('#remover_clone_ctdp_' + id_container_clone).on('click', function(){
+	        $('#box_clone_ctdp_' + id_container_clone).remove();
+
+	        if($("#conteiner_clone_ctdp > div").length == 0){
+	    		$('#nenhum_clone_ctdp_adicionado').show();
+	        }
+	    });
+
+	    return id_container_clone;
+	}
+
+	{if isset($cadastro) && !empty($cadastro)}
+		{foreach from=$cadastro.usuario_professor_curso_turma_disciplina_semestre key=indice item=ctdp}
+			id_container_clone = clone_ctdp_box();
+
+		    $('#curso_ctdp_' + id_container_clone).val('{$ctdp.id_curso}').trigger('change');
+		    $('#turma_ctdp_' + id_container_clone).val('{$ctdp.id_turma}').trigger('change');
+		    $('#disciplina_ctdp_' + id_container_clone).val('{$ctdp.id_disciplina}').trigger('change');
+		    $('#professor_ctdp_' + id_container_clone).val('{$ctdp.id_professor}').trigger('change');
+		{/foreach}
+	{/if}
+</script>

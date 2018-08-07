@@ -1,0 +1,54 @@
+{include file='views/back/form_padrao/header.html'}
+{include file='public/fineuploader/templates/template.html'}
+
+<div class="row">
+	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h3 class="panel-title">Arquivos</h3>
+			</div>
+			<div class="panel-body">
+				<div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">
+					<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+						<div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">
+							<div id="upload_trabalho_trigger" class="lazy_view_remove"></div>
+						</div>
+						<div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">
+							<div id="upload_trabalho" class="row">
+								{if isset($cadastro.trabalho_relaciona_arquivo.0.arquivo.0) && !empty($cadastro.trabalho_relaciona_arquivo.0.arquivo.0)}
+									<div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">
+									   <div class="panel panel-default">
+										   <div class="panel-body">
+											   <p class="text-center" style="font-size: 150px"><i class="fa fa-file-pdf-o text-center"></i></p>
+											   <h3 class="text-center">{$cadastro.trabalho_relaciona_arquivo.0.arquivo.0.nome}  {$cadastro.trabalho_relaciona_arquivo.0.arquivo.0.extensao}</h3>
+											   <input type="hidden" value="{$cadastro.trabalho_relaciona_arquivo.0.arquivo.0.id}" name="trabalho[arquivo][1]" />
+										   </div>
+									   </div>
+									</div>
+								{/if}
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <label>Curso Turma Disciplina</label>
+		<select style="width: 100%" name="{$modulo.modulo}[id_ctdp]">
+			<option></option>
+			{foreach from=$ctdp key=indice item=item}
+				<option value="{$item.id_semestre}">{$item.identificador}</option>
+			{/foreach}
+		</select>
+    </div>
+</div>
+<div class="row">
+	{include file='modulos/$modulo.modulo/view/form/clones/aluno.html'}
+</div>
+
+{include file='modulos/$modulo.modulo/view/form/form.js.html'}
+{include file='views/back/form_padrao/footer.html'}
+
+<div class="clearfix"></div>

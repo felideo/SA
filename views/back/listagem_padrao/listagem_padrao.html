@@ -46,6 +46,13 @@
 {literal}
 <script type="text/javascript">
 $(document).ready(function(){
+
+    {/literal}{if isset($listagem_alternativa) && !empty($listagem_alternativa)}{literal}
+        url = "/{/literal}{$listagem_alternativa}{literal}";
+    {/literal}{else}{literal}
+        url = "/{/literal}{$modulo.modulo}{literal}/carregar_listagem_ajax";
+    {/literal}{/if}{literal}
+
     $('#data_table').DataTable({
         "order": [[ 0, "desc" ]],
         "bProcessing": true,
@@ -56,7 +63,7 @@ $(document).ready(function(){
             "url": "/public/back/js/DataTable-Portuguese-Brasil.json"
         },
         "ajax":{
-            url :"/{/literal}{$modulo.modulo}{literal}/carregar_listagem_ajax",
+            url : url,
             type: "post",
             error: function(){
             },

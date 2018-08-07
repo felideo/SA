@@ -57,7 +57,6 @@ CREATE TABLE `modulo` (
   `ativo`      tinyint(1) NOT NULL DEFAULT '1',
   PRIMARY      KEY (`id`),
   KEY          `id_submenu` (`id_submenu`),INSERT INTO gestaoja2_basico2.plano_assinatura_controle_desconto_periodo_inicial
-(id, id_instancia, descricao, id_cliente_cadastro, id_assinatura_plataforma_ecommerce, id_plano_assinatura_plataforma_ecommerce, ciclo_recorrencia, data_inicial, data_final, preco_cheio, preco_promocional, utilizado, tipo_desconto, trial, ativo)
 VALUES(2070, 'gazetaonline', 'Preco Normal', 2026314, 70437, 4380, 120, '2018-04-16', '2028-04-13', 15.9000, 15.9000, 0, 3, 0, 1);
   CONSTRAINT   `modulo_ibfk_1` FOREIGN KEY (`id_submenu`) REFERENCES `submenu` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
@@ -294,3 +293,117 @@ CREATE TABLE `trabalho_relaciona_arquivo` (
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 DEFAULT CHARSET = utf8;
 
 alter table SWDB.url add COLUMN metodo VARCHAR(256) not null AFTER controller;
+
+CREATE TABLE `aluno` (
+  	`id`          int(11) 			NOT NULL AUTO_INCREMENT,
+  	`nome`        varchar(1024) 	NOT NULL,
+  	`rgm`         varchar(32)		NOT NULL,
+  	`id_usuario`  int(11) 			NULL,
+  	`id_semestre` int(11) 			NULL,
+  	`ativo`       tinyint(1) 		NOT NULL DEFAULT '1',
+  	PRIMARY       KEY (`id`),
+  	FOREIGN       KEY (`id_semestre`) REFERENCES `semestre` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  	FOREIGN       KEY (`id_usuario`) REFERENCES `usuario` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+
+
+CREATE TABLE `turma` (
+  	`id`       int(11) 			NOT NULL AUTO_INCREMENT,
+  	`periodo`  varchar(32) 		NOT NULL,
+  	`semestre` int(11) 			NOT NULL,
+  	`turma`    varchar(32) 		NULL,
+  	`ativo`    tinyint(1) 		NOT NULL DEFAULT '1',
+  	PRIMARY    KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+
+CREATE TABLE `disciplina` (
+	`id`            INT(11) 			NOT NULL AUTO_INCREMENT,
+	`disciplina` 		VARCHAR(512) 		NOT NULL,
+	`ativo`         TINYINT(1) 		NOT NULL DEFAULT '1',
+	PRIMARY         KEY (`id`)
+) ENGINE = InnoDB AUTO_INCREMENT = 1 DEFAULT CHARSET = utf8;
+
+CREATE TABLE `professor` (
+  	`id`          int(11) 			NOT NULL AUTO_INCREMENT,
+  	`nome`        varchar(1024) 	NOT NULL,
+  	`id_usuario`  int(11) 			NULL,
+  	`ativo`       tinyint(1) 		NOT NULL DEFAULT '1',
+  	PRIMARY       KEY (`id`),
+  	FOREIGN       KEY (`id_usuario`) REFERENCES `usuario` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+
+CREATE TABLE `semestre` (
+  	`id`            int(11) 	  NOT NULL AUTO_INCREMENT,
+  	`identificador` varchar(1024) NOT NULL,
+  	`termino`   	date		  NULL,
+  	`ativo`         tinyint(1) 	  NOT NULL DEFAULT '1',
+  	PRIMARY         KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+
+
+alter table `semestre`
+add COLUMN `inicio` date null;
+
+CREATE TABLE `usuario_professor_curso_turma_disciplina_semestre` (
+  	`id`            int(11) 			NOT NULL AUTO_INCREMENT,
+  	`id_usuario`    int(11) 			NOT NULL,
+  	`id_professor`  int(11) 			NOT NULL,
+  	`id_curso`      int(11) 			NOT NULL,
+  	`id_turma`      int(11) 			NOT NULL,
+  	`id_disciplina` int(11) 			NOT NULL,
+  	`id_semestre`   int(11) 			NOT NULL,
+  	`ativo`         tinyint(1) 		NOT NULL DEFAULT '1',
+  	PRIMARY         KEY (`id`),
+  	FOREIGN         KEY (`id_usuario`) 		REFERENCES `usuario` 	(`id`) 	ON DELETE NO ACTION ON UPDATE NO ACTION,
+  	FOREIGN         KEY (`id_professor`) 	REFERENCES `professor` 	(`id`) 	ON DELETE NO ACTION ON UPDATE NO ACTION,
+  	FOREIGN         KEY (`id_curso`) 		REFERENCES `curso` 		(`id`) 	ON DELETE NO ACTION ON UPDATE NO ACTION,
+  	FOREIGN         KEY (`id_turma`) 		REFERENCES `turma` 		(`id`) 	ON DELETE NO ACTION ON UPDATE NO ACTION,
+  	FOREIGN         KEY (`id_disciplina`) 	REFERENCES `disciplina` (`id`) 	ON DELETE NO ACTION ON UPDATE NO ACTION,
+  	FOREIGN         KEY (`id_semestre`) 	REFERENCES `semestre`   (`id`) 	ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+
+CREATE TABLE `aluno_relaciona_semestre` (
+  	`id`          int(11) 			NOT NULL AUTO_INCREMENT,
+  	`id_aluno`    int(11) 			NOT NULL,
+  	`id_usuario`  int(11) 			NOT NULL,
+  	`id_ctdp` int(11) 			NOT NULL,
+  	`ativo`       tinyint(1) 		NOT NULL DEFAULT '1',
+  	PRIMARY       KEY (`id`),
+  	FOREIGN       KEY (`id_aluno`) 		REFERENCES `aluno` 	(`id`) 	ON DELETE NO ACTION ON UPDATE NO ACTION,
+  	FOREIGN       KEY (`id_usuario`) 	REFERENCES `usuario` 	(`id`) 	ON DELETE NO ACTION ON UPDATE NO ACTION,
+  	FOREIGN       KEY (`id_ctdp`) 	REFERENCES `usuario_professor_curso_turma_disciplina_semestre`   (`id`) 	ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+
+
+alter table hierarquia add COLUMN permanente tinyint(1) not null DEFAULT 0 AFTER nome;
+
+
+
+
+
+
+
+
+
+
+
+CREATE TABLE `aula` (
+  	`id`       int(11) 			NOT NULL AUTO_INCREMENT,
+  	`numero`   int(11) 			NOT NULL,
+  	`titulo`   varchar(1024) 	NOT NULL,
+  	`conteudo` TEXT 			NOT NULL,
+  	`id_ctdp`  int(11) 			NOT NULL,
+  	`ativo`    tinyint(1) 		NOT NULL DEFAULT '1',
+  	PRIMARY    KEY (`id`),
+	FOREIGN KEY (`id_ctdp`) 	REFERENCES `usuario_professor_curso_turma_disciplina_semestre`   (`id`) 	ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+
+CREATE TABLE `contador_visita` (
+  	`id`         int(11) 			NOT NULL AUTO_INCREMENT,
+  	`id_usuario` int(11) 			NOT NULL,
+  	`data`       datetime  			NOT NULL default now(),
+  	`acao`       varchar(512) 		NOT NULL,
+  	`ativo`      tinyint(1) 		NOT NULL DEFAULT '1',
+  	PRIMARY      KEY (`id`),
+	FOREIGN KEY (`id_usuario`) 	REFERENCES `usuario`   (`id`) 	ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;

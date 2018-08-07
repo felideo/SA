@@ -7,7 +7,9 @@ class Hierarquia extends \Framework\Model{
 	public function carregar_listagem($busca, $datatable = null){
 		$select = "SELECT"
 			. " 	hierarquia.id,"
-			. " 	hierarquia.nome"
+			. " 	hierarquia.nome,"
+			. " 	hierarquia.permanente"
+
 			. " FROM"
 			. " 	hierarquia hierarquia"
 			. " WHERE"

@@ -11,7 +11,7 @@ class ControllerCrud extends \Framework\Controller {
 		$this->view->assign('modulo', $this->modulo);
 	}
 
-	public function index() {
+	public function index(){
 		\Util\Auth::handLeLoggin();
 		\Util\Permission::check($this->modulo['modulo'], "visualizar");
 
@@ -75,7 +75,7 @@ class ControllerCrud extends \Framework\Controller {
 
 		$this->check_if_exists($id[0]);
 
-		$retorno = $this->model->update($this->modulo['modulo'], $id[0], carregar_variavel($this->modulo['modulo']));
+		$retorno = $this->model->update($this->modulo['modulo'], ['id' => $id[0]], carregar_variavel($this->modulo['modulo']));
 
 		if($retorno['status']){
 			$this->view->alert_js(ucfirst($this->modulo['modulo']) . ' editado com sucesso!!!', 'sucesso');
@@ -92,7 +92,7 @@ class ControllerCrud extends \Framework\Controller {
 
 		$this->check_if_exists($id[0]);
 
-		$retorno = $this->model->delete($this->modulo['modulo'], "id = {$id[0]}");
+		$retorno = $this->model->delete($this->modulo['modulo'], ['id' => $id[0]]);
 
 		if($retorno['status']){
 			$this->view->alert_js(ucfirst($this->modulo['modulo']) . ' removido com sucesso!!!', 'sucesso');

@@ -13,7 +13,6 @@ class QueryBuilder{
 	private $first;
 	private $select = [];
 
-
 	private $parametros = [
 		'select'     => [],
 		'from'       => '',
@@ -139,11 +138,7 @@ class QueryBuilder{
 
 	private function tratar_select($select){
 		$select = trim(str_replace(' ', '', str_replace("\t", '', str_replace("\n", '', preg_replace('!\s+!', ' ', $select)))));
-
-		if(substr($select, -1) == ','){
-			$select = substr($select, 0, -1);
-		}
-
+		$select = rtrim($select, ',');
 		$select = explode(',', $select);
 
 		foreach ($select as &$item) {
@@ -256,13 +251,13 @@ class QueryBuilder{
 		$retorno =  $this->execute_sql_query($this->getQuery());
 
 		if($first == 'first'){
-			return $this->convert_to_tree($retorno);
+			$return = $this->convert_to_tree($retorno)[0];
+			$this->clean_class();
+			return $return;
 		}
 
 		$return = $this->convert_to_tree($retorno);
-
 		$this->clean_class();
-
 		return $return;
 	}
 
@@ -671,6 +666,7 @@ class QueryBuilder{
 
 	private function try_get_select_columns($table){
 		$columns = $this->get_columns_name($table);
+
 		if (!empty($columns)) {
 			$retorno = [];
 

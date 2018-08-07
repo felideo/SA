@@ -15,14 +15,12 @@ class Usuario extends \Framework\Model{
 			. " 	usuario.id,"
 			. " 	usuario.email,"
 			. " 	usuario.hierarquia,"
+			. " 	usuario.ativo,"
 			. " 	pessoa.nome,"
 			. " 	pessoa.sobrenome"
 			. " FROM"
 			. " 	usuario usuario"
-
 			. " LEFT JOIN pessoa pessoa ON pessoa.id_usuario = usuario.id AND pessoa.ativo = 1"
-
-
 			. " WHERE"
 			. " 	usuario.ativo = 1";
 
@@ -57,7 +55,7 @@ class Usuario extends \Framework\Model{
 
 		// $data['senha'] = \Libs\Hash::create('sha1', $data['senha'], HASH_PASSWORD_KEY);
 
-		return $this->get_insert($table, $data);
+		return $this->insert($table, $data);
 	}
 
 	public function load_user_by_email($email){
@@ -80,16 +78,14 @@ class Usuario extends \Framework\Model{
 	}
 
 	public function load_cadastro($id){
-		$query = new QueryBuilder($this->db);
-
-		return $query->select('
+		return $this->query->select('
 			usuario.*,
 			pessoa.*
 		')
 			->from('usuario usuario')
 			->leftJoin('pessoa pessoa ON pessoa.id_usuario = usuario.id AND pessoa.ativo = 1')
 			->where("usuario.id = {$id} AND usuario.ativo = 1")
-			->fetchArray('first');
+			->fetchArray();
 	}
 
 	public function carregar_usuario_por_id($id){

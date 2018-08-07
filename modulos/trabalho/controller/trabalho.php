@@ -371,7 +371,7 @@ class Trabalho extends \Framework\ControllerCrud {
 	}
 
 	public function aprovar($parametros){
-		$retorno_aprovar = $this->model->update('trabalho', $parametros[0], ['status' => 1]);
+		$retorno_aprovar = $this->model->update('trabalho', ['id' => $parametros[0]], ['status' => 1]);
 
 		if($retorno_aprovar['status']){
 			$this->view->alert_js(ucfirst($this->modulo['modulo']) . ' aprovado com sucesso!!!', 'sucesso');
@@ -380,7 +380,7 @@ class Trabalho extends \Framework\ControllerCrud {
 		}
 	}
 	public function reprovar($parametros){
-		$retorno_reprovar = $this->model->update('trabalho', $parametros[0], ['status' => 2]);
+		$retorno_reprovar = $this->model->update('trabalho', ['id' => $parametros[0]], ['status' => 2]);
 
 		if($retorno_reprovar['status']){
 			$this->view->alert_js(ucfirst($this->modulo['modulo']) . ' reprovado com sucesso!!!', 'sucesso');

@@ -38,7 +38,6 @@ class View {
 		echo $this->dwoo->get($footer, $this->assign);
 
 		if(isset($this->lazy_view) && !empty($this->lazy_view)){
-			debug2($this->lazy_view);
 			$lazy_view = new \Dwoo\Template\File('views/back/form_padrao/lazy_view.html');
 			echo $this->dwoo->get($lazy_view, $this->assign);
 		}
@@ -52,12 +51,16 @@ class View {
 
 		$active = ($_SESSION['modulo_ativo'] == 'painel_controle') ? "active" : " ";
 
-		$array_menu[] = "<li class='{$active}'>\n\t"
+		$indice = \Util\Hash::get_unic_hash();
+
+		$array_menu[$indice]['menu'] = "<li class='{$active}'>\n\t"
 			. "<a href='/painel_controle'>\n\t\t"
 			. "<span aria-hidden='true' class='fa fa-dashboard fa-fw'></span>\n\t\t"
             . "<span class='nav-label'>Painel de Controle</span>\n\t"
 			. "</a>\n"
 			. "</li>\n";
+
+		$array_menu[$indice]['ordem'] = 1;
 
 		foreach ($_SESSION['menus'] as $indice_01 => $menu){
 			if(count($menu) == 1){
@@ -65,6 +68,7 @@ class View {
 
 						$active = $menu[0]['modulo'] == $_SESSION['modulo_ativo'] ? "active" : " ";
 
+						$menu_ordem  = $menu[0]['ordem'];
 						$string_menu = "<li class=' {$active} '>\n\t"
 							. " <a href='/{$menu[0]['modulo']}'>\n\t\t"
 							. 		"<span aria-hidden='true' class='icon fa {$menu[0]['icone']} fa-fw'></span>\n\t\t";
@@ -76,6 +80,10 @@ class View {
 	            			. "</li>\n";
 	            }
            	}elseif(count($menu) > 1){
+           		if(!isset($menu['modulos']) || empty($menu['modulos'])){
+           			continue;
+           		}
+
 				foreach ($menu['modulos'] as $indice_02 => $submenu){
 					if($_SESSION['usuario']['super_admin'] == 1 || isset($_SESSION['permissoes'][$submenu['modulo']])){
 						$submenus_com_permissao[] = $indice_01;
@@ -85,7 +93,10 @@ class View {
 			}
 
 			if(isset($string_menu)){
-				$array_menu[] = $string_menu;
+				$array_menu[\Util\Hash::get_unic_hash()] =[
+					'menu'  => $string_menu,
+					'ordem' => $menu_ordem,
+				] ;
 			}
 
 			if(isset($string_menu)){
@@ -106,8 +117,14 @@ class View {
          			. " </a>\n\t"
      				. " <ul class='nav nav-second-level'>\n\t\t";
 
+					$menu_ordem = 99999999999;
 					foreach($_SESSION['menus'][$submenus]['modulos'] as $indice_04 => $submenu){
 						if($_SESSION['usuario']['super_admin'] == 1 || isset($_SESSION['permissoes'][$submenu['modulo']])){
+
+							if($submenu['ordem'] < $menu_ordem){
+								$menu_ordem = $submenu['ordem'];
+							}
+
  	                        $menu_submenu .= "<li class=' {$active} '>\n\t\t\t"
                          		. 	" <a href='/{$submenu['modulo']}'>\n\t\t\t\t"
 								. 		"<span aria-hidden='true' class='icon fa glyphicon {$submenu['icone']} fa-fw'></span>\n\t\t\t\t"
@@ -120,9 +137,18 @@ class View {
                  	$menu_submenu .= "</ul>\n"
          				. "</li>";
 
-        		$array_menu[] = $menu_submenu;
+        		$array_menu[\Util\Hash::get_unic_hash()] =[
+					'menu'  => $menu_submenu,
+					'ordem' => $menu_ordem,
+				] ;
+
         		unset($menu_submenu);
 			}
+		}
+
+		$array_menu = \Libs\Arrays::ordenarPorColuna($array_menu, 'ordem', 'asc');
+		foreach($array_menu as $indice_05 => $item){
+			$array_menu[$indice_05] = $array_menu[$indice_05]['menu'];
 		}
 
 		$array_menu = implode(' ', $array_menu);

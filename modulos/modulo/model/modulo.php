@@ -40,7 +40,7 @@ class Modulo extends \Framework\Model{
 		$erros = 0;
 
 		foreach ($permissoes_basicas as $indice => $permissao) {
-			$retorno[$indice] = $this->get_insert('permissao', $permissao);
+			$retorno[$indice] = $this->insert('permissao', $permissao);
 
 			if(!empty($retorno[$indice]['id'])){
 				$insert_relacao = [
@@ -48,7 +48,7 @@ class Modulo extends \Framework\Model{
 					'id_permissao'  => $retorno[$indice]['id']
 				];
 
-				$retorno_relacao[$indice] = $this->get_insert('hierarquia_relaciona_permissao', $insert_relacao);
+				$retorno_relacao[$indice] = $this->insert('hierarquia_relaciona_permissao', $insert_relacao);
 			}
 
 

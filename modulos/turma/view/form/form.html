@@ -1,0 +1,19 @@
+{include file='views/back/form_padrao/header.html'}
+<div class="form-group col-xs-12 col-sm-12 col-md-6 col-lg-6">
+    <label>Periodo * :</label>
+	<select class="form-control" type="text" name="{$modulo.modulo}[periodo]" required>
+		<option></option>
+		<option value="Manhã" {if isset($cadastro) && $cadastro.periodo == 'Manhã'} selected {/if}>Manhã</option>
+		<option value="Tarde" {if isset($cadastro) && $cadastro.periodo == 'Tarde'} selected {/if}>Tarde</option>
+		<option value="Noite" {if isset($cadastro) && $cadastro.periodo == 'Noite'} selected {/if}>Noite</option>
+	</select>
+</div>
+<div class="form-group col-xs-12 col-sm-12 col-md-3 col-lg-3">
+    <label>Semestre * :</label>
+    <input class="form-control somente_numeros" type="text" name="{$modulo.modulo}[semestre]" value="{if isset($cadastro)}{$cadastro.semestre}{/if}" required>
+</div>
+<div class="form-group col-xs-12 col-sm-12 col-md-3 col-lg-3">
+    <label >Turma * :</label>
+    <input class="form-control somente_letras" type="text" name="{$modulo.modulo}[turma]"  value="{if isset($cadastro)}{$cadastro.turma}{/if}" required>
+</div>
+{include file='views/back/form_padrao/footer.html'}

@@ -37,10 +37,12 @@ class Hierarquia extends \Framework\ControllerCrud {
 		$retorno = [];
 
 		foreach ($query as $indice => $item) {
+			$permanente = empty($item['permanente']) ? true : false;
+
 			$retorno[] = [
 				$item['id'],
 				$item['nome'],
-				$item['id'] != 1 ? $this->view->default_buttons_listagem($item['id'], true, true, true) : $this->view->default_buttons_listagem($item['id'], true, true, false)
+				$item['id'] != 1 ? $this->view->default_buttons_listagem($item['id'], true, true, $permanente) : $this->view->default_buttons_listagem($item['id'], true, true, false)
 			];
 		}
 
@@ -101,10 +103,12 @@ class Hierarquia extends \Framework\ControllerCrud {
 		\Util\Permission::check($this->modulo['modulo'], "editar");
 
 		$update_db = ['nome' => carregar_variavel($this->modulo['modulo'])];
-		$retorno = $this->model->update($this->modulo['modulo'], $id[0], $update_db);
+		$retorno = $this->model->update($this->modulo['modulo'], ['id' => $id[0]], $update_db);
+
+		debug2($retorno['status']);
 
 		if($retorno['status']){
-			$retorno = $this->model->update_relacao('hierarquia_relaciona_permissao', 'id_hierarquia', $id[0], ['ativo' => 0]);
+			$this->model->update('hierarquia_relaciona_permissao', ['id_hierarquia' => $id[0]], ['ativo' => 0]);
 			foreach (carregar_variavel('hierarquia_relaciona_permissao') as $indice => $permissao) {
 				$insert_permissao = [
 					'id_hierarquia' => $id[0],
@@ -157,9 +161,9 @@ class Hierarquia extends \Framework\ControllerCrud {
 
 		\Util\Permission::check($this->modulo['modulo'], "deletar");
 
-		$retorno = $this->model->delete($this->modulo['modulo'], "id = {$id[0]}");
-		// $retorno = $this->model->delete('permissao', $id[0]);
-		$retorno = $this->model->delete('hierarquia_relaciona_permissao', "id_hierarquia = {$id[0]}");
+		$retorno = $this->model->delete($this->modulo['modulo'], ['id' => $id[0]]);
+		// $retorno = $this->model->delete('permissao', ['id' => $id[0]]);
+		$retorno = $this->model->delete('hierarquia_relaciona_permissao', ['id_hierarquia' => $id[0]]);
 
 
 		if($retorno['status']){

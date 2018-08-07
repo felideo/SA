@@ -1,0 +1,43 @@
+{include file='views/back/form_padrao/header.html'}
+<div class="row">
+	<div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <label>Curso Turma Disciplina</label>
+		<select style="width: 100%" name="{$modulo.modulo}[id_ctdp]">
+			<option></option>
+			{foreach from=$ctdp key=indice item=item}
+				<option value="{$item.id_semestre}" {if isset($cadastro) && $item.id_semestre == $cadastro.0.id_ctdp} selected {/if}>{$item.identificador}</option>
+			{/foreach}
+		</select>
+    </div>
+</div>
+<div class="row">
+	<div id="box_clone_aluno_1" class="panel panel-default">
+		<div class="panel-heading">
+			<h3 class="panel-title">Aluno 1</h3>
+		</div>
+		<div class="panel-body">
+			<div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">
+			    <label>Nome</label>
+			    <br>
+			    <input id="nome_aluno_1" type="text" class="form-control" name="{$modulo.modulo}[aluno][1][nome]" style="width: 100%;" value="{if isset($cadastro)}{$cadastro.0.aluno.0.nome}{/if}" required >
+			</div>
+
+			<div class="form-group col-xs-12 col-sm-12 col-md-8 col-lg-8">
+			    <label>Email</label>
+			    <br>
+			    <input id="email_aluno_1" type="text" class="form-control" name="{$modulo.modulo}[aluno][1][email_aluno]" style="width: 100%;" value="{if isset($cadastro)}{$cadastro.0.usuario.0.email}{/if}" readonly required >
+			</div>
+
+			<div class="form-group col-xs-12 col-sm-12 col-md-4 col-lg-4">
+			    <label>RGM</label>
+			    <input id="rgm_aluno_1" type="text" class="form-control" name="{$modulo.modulo}[aluno][1][rgm]" value="{if isset($cadastro)}{$cadastro.0.aluno.0.rgm}{/if}" required>
+			</div>
+		</div>
+	</div>
+</div>
+</div>
+
+{include file='modulos/$modulo.modulo/view/form/form.js.html'}
+{include file='views/back/form_padrao/footer.html'}
+
+<div class="clearfix"></div>

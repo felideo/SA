@@ -24,7 +24,7 @@ abstract class Model {
 			'ativo' => 1,
 		];
 
-		return $this->get_insert($table, $data);
+		return $this->insert($table, $data);
 	}
 
 	public function get_insert($table, $data) {

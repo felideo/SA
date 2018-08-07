@@ -14,7 +14,6 @@ class BigBang{
 		}
 
 		$url = $this->load_friendly_url($url);
-
 		$amp = $this->identificar_arquivo_metodo_parametro($url);
 
 		if(file_exists($amp['arquivo'])) {
@@ -79,7 +78,7 @@ class BigBang{
 		$file = 'modulos';
 
 		foreach($url as $indice => $value) {
-			if(file_exists("{$file}/{$value}/controller/{$value}.php")){
+			if(file_exists("{$file}/{$value}/controller/{$value}.php") && empty($arquivo)){
 				$arquivo = "{$file}/{$value}/controller/{$value}.php";
 				$class = $value;
 			}else{

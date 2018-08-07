@@ -15,8 +15,8 @@ class Senha extends \Framework\Controller {
 
 		if(isset($usuario[0]) && !empty($usuario[0])){
 			$hash =  \Util\Hash::get_unic_hash();
-			$retorno_hash = $model_usuario->update('usuario', $usuario[0]['id'], ['token' => $hash]);
-			$retorno_hash = $model_usuario->update('usuario', $usuario[0]['id'], ['senha' => md5($hash)]);
+			$retorno_hash = $model_usuario->update('usuario', ['id' => $usuario[0]['id']], ['token' => $hash]);
+			$retorno_hash = $model_usuario->update('usuario', ['id' => $usuario[0]['id']], ['senha' => md5($hash)]);
 		} else {
 			$this->view->alert_js('Email não encontrado...', 'erro');
 			echo json_encode(false);
@@ -73,7 +73,7 @@ class Senha extends \Framework\Controller {
 		$model_usuario = $this->load_external_model('usuario');
 		$token_verdadeiro = $model_usuario->check_token($token[0]);
 
-		$retorno_senha = $model_usuario->update('usuario', $token_verdadeiro[0]['id'], ['senha' => $nova_senha, 'token' => '']);
+		$retorno_senha = $model_usuario->update('usuario', ['id' => $token_verdadeiro[0]['id']], ['senha' => $nova_senha, 'token' => '']);
 
 		if($retorno_senha['status']){
 			$this->view->alert_js('Senha alterada com sucesso!!!', 'sucesso');

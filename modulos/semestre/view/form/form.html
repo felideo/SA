@@ -1,0 +1,41 @@
+{include file='views/back/form_padrao/header.html'}
+<div class="contact-form form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <label>Identificador:</label>
+        <input class="form-control letras_e_numeros" name="{$modulo.modulo}[semestre][identificador]" value="{if isset($cadastro)}{$cadastro.identificador}{/if}" type="text" >
+    </div>
+    <div class="form-group col-xs-12 col-sm-12 col-md-6 col-lg-6" style="position: relative;">
+        <label>Data de inicio</label>
+        <input id="data_inicio" autocomplete="off" class="form-control" name="{$modulo.modulo}[semestre][inicio]" value="{if isset($cadastro)}{$cadastro.inicio}{/if}">
+    </div>
+
+    <div class="form-group col-xs-12 col-sm-12 col-md-6 col-lg-6" style="position: relative;">
+        <label>Data de termino</label>
+        <input id="data_limite" autocomplete="off" class="form-control" name="{$modulo.modulo}[semestre][termino]" value="{if isset($cadastro)}{$cadastro.termino}{/if}">
+    </div>
+</div>
+
+{include file="./clones/curso_turma_disciplina.html"}
+{include file='views/back/form_padrao/footer.html'}
+
+<script type="text/javascript">
+    $('#data_inicio').datetimepicker({
+        sideBySide: true,
+        debug: false,
+        format: 'DD/MM/YYYY',
+        widgetPositioning: {
+            horizontal: 'auto',
+            vertical: 'bottom'
+        }
+    });
+
+    $('#data_limite').datetimepicker({
+        sideBySide: true,
+        debug: false,
+        format: 'DD/MM/YYYY',
+        widgetPositioning: {
+            horizontal: 'auto',
+            vertical: 'bottom'
+        }
+    });
+</script>

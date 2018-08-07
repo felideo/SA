@@ -7,6 +7,42 @@ abstract class Controller {
 		$this->view = new View();
 	}
 
+	public function get_controller($controller, $subcontroller = null){
+		$subcontroller = (!empty($subcontroller) ? $subcontroller : $controller);
+		$file          = "modulos/{$controller}/controller/{$subcontroller}.php";
+
+
+		if(!file_exists($file)) {
+			debug2('controler não existe, se fudeu, aproveita e coloca uma exception aqui');
+		}
+
+		$instancia_controller = '\\Controller\\' . ucfirst($subcontroller);
+		require_once $file;
+		return new $instancia_controller;
+	}
+
+	public function get_model($model, $submodel = null){
+		$submodel = (!empty($submodel) ? $submodel : $model);
+		$file          = "modulos/{$model}/model/{$submodel}.php";
+
+		if(!file_exists($file)) {
+			debug2('controler não existe, se fudeu, aproveita e coloca uma exception aqui');
+		}
+
+		$instancia_model = '\\Model\\' . ucfirst($submodel);
+
+		require_once $file;
+		return new $instancia_model;
+	}
+
+
+
+
+
+
+
+
+
 	public function loadModel($model) {
 		$path = strtolower("modulos/{$model}/model/{$model}.php");
 

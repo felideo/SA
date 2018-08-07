@@ -11,7 +11,7 @@ define('URL', $url);
 // Configuração com Banco de Dados
 define('DB_TYPE', 'mysql');
 define('DB_HOST', '127.0.0.1');
-define('DB_NAME', 'SWDB');
+define('DB_NAME', 'SA');
 define('DB_USER', 'root');
 define('DB_PASS', 'lilith');
 

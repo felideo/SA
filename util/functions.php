@@ -113,7 +113,6 @@ function transformar_array($variavel) {
 }
 
 function transformar_data($data) {
-
     $var = $data;
 
     $dataHora = explode(' ', $var);

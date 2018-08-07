@@ -164,14 +164,18 @@ class Usuario extends \Framework\ControllerCrud {
 			'hierarquia' => $usuario['usuario']['hierarquia'],
 		];
 
-		$retorno_usuario = $this->model->update($this->modulo['modulo'], $id[0], $update_db_usuario);
+		$retorno_usuario = $this->model->update($this->modulo['modulo'], ['id' => $id[0]], $update_db_usuario);
 
 		if($retorno_usuario['status']){
 			$update_db_pessoa = [
 				'nome'       => $usuario['pessoa']['nome'],
 				'sobrenome'  => $usuario['pessoa']['sobrenome'],
+				'id_usuario' => $id[0]
 			];
-			$retorno_pessoa = $this->model->update_relacao('pessoa', 'id_usuario', $id[0], $update_db_pessoa);
+
+			debug2($update_db_pessoa);
+
+			$retorno_pessoa = $this->model->insert_update('pessoa', ['id_usuario' => $id[0]], $update_db_pessoa, true);
 		}
 
 		if($retorno_usuario['status'] && $retorno_pessoa['status']){
@@ -195,10 +199,10 @@ class Usuario extends \Framework\ControllerCrud {
 			exit;
 		}
 
-		$retorno_usuario = $this->model->delete('usuario', "id = {$id[0]}");
+		$retorno_usuario = $this->model->delete('usuario', ['id' => $id[0]]);
 
 		if($retorno_usuario['status']){
-			$retorno_pessoa = $this->model->delete('pessoa', "id_usuario = {$id[0]}");
+			$retorno_pessoa = $this->model->delete('pessoa', ['id_usuario' => $id[0]]);
 		}
 
 		if($retorno_usuario['status']){
@@ -240,7 +244,7 @@ class Usuario extends \Framework\ControllerCrud {
 				'senha' => $usuario['senha']
 			];
 
-			$retorno_usuario = $this->model->update('usuario', $id[0], $update_db);
+			$retorno_usuario = $this->model->update('usuario', ['id' => $id[0]], $update_db);
 		}
 
 		unset($update_db);
@@ -255,7 +259,7 @@ class Usuario extends \Framework\ControllerCrud {
     		'grau'        => $usuario['grau'],
 		];
 
-		$retorno_pessoa = $this->model->update('pessoa', $id[0], $update_db);
+		$retorno_pessoa = $this->model->update('pessoa', ['id' => $id[0]], $update_db);
 
 		if($retorno_usuario['status'] == 1 || $retorno_pessoa['status'] == 1){
 			$this->view->alert_js('Edição efetuada com sucesso!!!', 'sucesso');
@@ -278,7 +282,7 @@ class Usuario extends \Framework\ControllerCrud {
 			"hierarquia" => 4
 		];
 
-		$retorno = $this->model->update($this->modulo['modulo'], $id[0], $update_db);
+		$retorno = $this->model->update($this->modulo['modulo'], ['id' => $id[0]], $update_db);
 
 		if($retorno['status']){
 			$this->view->alert_js('Alteração efetuada com sucesso!!!', 'sucesso');
@@ -300,7 +304,7 @@ class Usuario extends \Framework\ControllerCrud {
 			"hierarquia" => 2
 		];
 
-		$retorno = $this->model->update($this->modulo['modulo'], $id[0], $update_db);
+		$retorno = $this->model->update($this->modulo['modulo'], ['id' => $id[0]], $update_db);
 
 		if($retorno['status']){
 			$this->view->alert_js('Alteração efetuada com sucesso!!!', 'sucesso');

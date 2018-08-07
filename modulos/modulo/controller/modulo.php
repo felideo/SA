@@ -94,7 +94,7 @@ class Modulo extends \Framework\ControllerCrud {
 			$update_db['id_submenu'] = NULL;
 		}
 
-		$retorno = $this->model->update($this->modulo['modulo'], $id[0], $update_db);
+		$retorno = $this->model->update($this->modulo['modulo'], ['id' => $id[0]], $update_db);
 
 		if($retorno['status']){
 			$this->view->alert_js('Cadastro editado com sucesso!!!', 'sucesso');
@@ -108,7 +108,7 @@ class Modulo extends \Framework\ControllerCrud {
 	public function delete($id) {
 		\Util\Permission::check($this->modulo['modulo'], $this->modulo['modulo'] . "_" . "deletar");
 
-		$retorno = $this->model->delete($this->modulo['modulo'], $id[0]);
+		$retorno = $this->model->delete($this->modulo['modulo'], ['id' => $id[0]]);
 
 		if($retorno['status']){
 			$this->view->alert_js('Remoção efetuada com sucesso!!!', 'sucesso');

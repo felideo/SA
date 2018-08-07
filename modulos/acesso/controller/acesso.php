@@ -14,6 +14,15 @@ class Acesso extends \Framework\Controller {
 		$this->view->modulo = $this->modulo;
 	}
 
+	public function aluno($parametros = null){
+		$aluno = $this->get_model('aluno')->carregar_aluno(['rgm' => $parametros[0]]);
+
+		debug2($aluno);
+
+		$this->view->assign('aluno', $aluno);
+		$this->view->render('back/cabecalho_rodape', $this->modulo['modulo'] . '/view/back/aluno/completar_cadastro/completar_cadastro');
+	}
+
 	public function login(){
 		$this->view->render('front/cabecalho_rodape', 'front/acesso/login/login');
 	}
@@ -42,6 +51,7 @@ class Acesso extends \Framework\Controller {
 		$retorno = $this->model->run_back(carregar_variavel('acesso'));
 
 		if($retorno == true){
+			$this->get_controller('contador_visita')->contar_visita('Acessou o Sistema');
 			header('location: ../painel_controle');
 		}else{
 			$this->view->alert_js('Usúario ou Senha inválido...', 'erro');
