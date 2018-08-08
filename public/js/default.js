@@ -14,8 +14,8 @@ $(document).ready(function() {
 });
 
 $(window).load(function(){
-    $("body").removeClass();
-    $('body').addClass("pace-done");
+    // $("body").removeClass();
+    // $('body').addClass("pace-done");
 });
 
 
