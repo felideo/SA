@@ -32,9 +32,7 @@ class Aluno extends \Framework\Model{
 
 		if($_SESSION['usuario']['hierarquia'] == 5){
 			$this->query->andWhere("rel_aluno.id_usuario = {$_SESSION['usuario']['id']}");
-		}
-
-		if((isset($id_usuario) && !empty($id_usuario)) && $_SESSION['usuario']['hierarquia'] == 3){
+		}elseif((isset($id_usuario) && !empty($id_usuario)) && ($_SESSION['usuario']['hierarquia'] != 1 && $_SESSION['usuario']['hierarquia'] != 2)){
 				$this->query->andWhere("ctdp.id_usuario = {$id_usuario}");
 		}
 

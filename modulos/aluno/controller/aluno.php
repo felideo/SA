@@ -41,6 +41,10 @@ class Aluno extends \Framework\ControllerCrud {
 	public function tratar_ctdp_lista($ctdp){
 		$retorno = [];
 
+		if(empty($ctdp)){
+			return $retorno;
+		}
+
 		foreach($ctdp as $indice => $item){
 			$implode = [
 				$item['disciplina'][0]['disciplina'],
