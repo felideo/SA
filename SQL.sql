@@ -407,3 +407,9 @@ CREATE TABLE `contador_visita` (
   	PRIMARY      KEY (`id`),
 	FOREIGN KEY (`id_usuario`) 	REFERENCES `usuario`   (`id`) 	ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+
+alter table aula add COLUMN arquivo varchar(1) not null DEFAULT 0 AFTER nome;
+
+ALTER TABLE `aula`
+	ADD COLUMN id_arquivo int(11) null,
+   	ADD FOREIGN KEY (`id_arquivo`) REFERENCES arquivo(id) ON DELETE cascade ON UPDATE cascade;

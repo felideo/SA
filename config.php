@@ -18,7 +18,7 @@ define('DB_PASS', 'lilith');
 define('DEVELOPER', true);
 define('PREVENT_CACHE', true);
 
-define('APP_NAME', 'Scientific Work DB');
+define('APP_NAME', 'Sistema de Aula');
 
 error_reporting(E_ALL);
 ini_set('display_errors', 1);

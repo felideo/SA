@@ -73,8 +73,13 @@ class Aula extends \Framework\ControllerCrud {
 
 		$this->view->assign('ctdp', $ctdp);
 
+		$cadastro =  $this->model->full_load_by_id($this->modulo['modulo'], $id[0])[0];
 
-		$this->view->assign('cadastro', $this->model->full_load_by_id($this->modulo['modulo'], $id[0])[0]);
+		if(isset($cadastro['id_arquivo']) && !empty($cadastro['id_arquivo'])){
+			$cadastro['id_arquivo'] = $this->model->full_load_by_id('arquivo', $cadastro['id_arquivo'])[0];
+		}
+
+		$this->view->assign('cadastro', $cadastro);
 		$this->view->render('back/cabecalho_rodape_sidebar', $this->modulo['modulo'] . '/view/form/form');
 	}
 
@@ -91,6 +96,14 @@ class Aula extends \Framework\ControllerCrud {
 		$this->view->assign('ctdp', $ctdp);
 
 		$cadastro =  $this->model->full_load_by_id($this->modulo['modulo'], $id[0])[0];
+
+		if(isset($cadastro['id_arquivo']) && !empty($cadastro['id_arquivo'])){
+			$cadastro['id_arquivo'] = $this->model->full_load_by_id('arquivo', $cadastro['id_arquivo'])[0];
+		}
+
+
+		// debug2($cadastro);
+		// exit;
 
 		if(!empty($cadastro['titulo'])){
 
