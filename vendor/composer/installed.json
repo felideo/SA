@@ -6,12 +6,12 @@
         "source": {
             "type": "git",
             "url": "https://github.com/dwoo-project/dwoo.git",
-            "reference": "5cd5327fe610b238a72875b3a59d505fccabaec4"
+            "reference": "c6c487c3b41a6c812c271f751b1c7770a1000ecb"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/dwoo-project/dwoo/zipball/5cd5327fe610b238a72875b3a59d505fccabaec4",
-            "reference": "5cd5327fe610b238a72875b3a59d505fccabaec4",
+            "url": "https://api.github.com/repos/dwoo-project/dwoo/zipball/c6c487c3b41a6c812c271f751b1c7770a1000ecb",
+            "reference": "c6c487c3b41a6c812c271f751b1c7770a1000ecb",
             "shasum": ""
         },
         "require": {
@@ -20,7 +20,7 @@
         "require-dev": {
             "phpunit/phpunit": "4.8.27"
         },
-        "time": "2018-04-18 14:14:10",
+        "time": "2018-07-25T13:21:21+00:00",
         "type": "library",
         "installation-source": "source",
         "autoload": {
@@ -38,6 +38,7 @@
                 "email": "david38sanchez@gmail.com"
             }
         ],
-        "description": "Dwoo is a PHP5/PHP7 template engine which is (almost) fully compatible with Smarty templates and plugins, but is written from scratch for PHP5, and adds many features."
+        "description": "Dwoo is a PHP5/PHP7 template engine which is (almost) fully compatible with Smarty templates and plugins, but is written from scratch for PHP5, and adds many features.",
+        "abandoned": "twig/twig"
     }
 ]
