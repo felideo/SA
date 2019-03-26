@@ -5,6 +5,7 @@ class BigBang{
 	public function __construct() {
 		$url = $this->get_url();
 
+
 		if(empty($url[0])) {
 			require 'modulos/index/controller/index.php';
 			$controller = new \Controller\Index();

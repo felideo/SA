@@ -12,8 +12,8 @@ define('URL', $url);
 define('DB_TYPE', 'mysql');
 define('DB_HOST', '127.0.0.1');
 define('DB_NAME', 'SA');
-define('DB_USER', 'root');
-define('DB_PASS', 'lilith');
+define('DB_USER', 'felideo');
+define('DB_PASS', 'a3e5a6d13005ecfc8172777baf');
 
 define('DEVELOPER', true);
 define('PREVENT_CACHE', true);
