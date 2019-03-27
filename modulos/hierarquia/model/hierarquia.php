@@ -8,7 +8,7 @@ class Hierarquia extends \Framework\Model{
 		$select = "SELECT"
 			. " 	hierarquia.id,"
 			. " 	hierarquia.nome,"
-			. " 	hierarquia.permanente"
+			. " 	hierarquia.nivel"
 
 			. " FROM"
 			. " 	hierarquia hierarquia"
@@ -32,7 +32,7 @@ class Hierarquia extends \Framework\Model{
 			$select .= " LIMIT {$busca['start']}, {$busca['length']}";
 		}
 
-		return $this->db->select($select);
+		return $this->select($select);
 	}
 
 	public function load_hierarquia($id){
@@ -42,6 +42,7 @@ class Hierarquia extends \Framework\Model{
 			$query->select('
 				hierarquia.id,
 				hierarquia.nome,
+				hierarquia.nivel,
 				relacao.id,
 				permissao.id
 			')

@@ -71,8 +71,8 @@ class Login_Model extends \Framework\Model{
 	}
 
 	private function load_modulos_and_menus(){
-		$modulos = $this->db->select('SELECT * FROM modulo WHERE ATIVO = 1 ORDER BY ordem');
-		$submenus = $this->db->select('SELECT * FROM submenu WHERE ATIVO = 1');
+		$modulos = $this->select('SELECT * FROM modulo WHERE ATIVO = 1 ORDER BY ordem');
+		$submenus = $this->select('SELECT * FROM submenu WHERE ATIVO = 1');
 
 		foreach ($modulos as $indice_01 => $modulo) {
 
@@ -113,7 +113,7 @@ class Login_Model extends \Framework\Model{
 				. ' ON modulo.id = permissao.id_modulo'
 				. ' WHERE hierarquia.id = ' . $_SESSION['usuario']['hierarquia'];
 
-			$permissoes = $this->db->select($select);
+			$permissoes = $this->select($select);
 
 
 			foreach($permissoes as $indice => $permissao){

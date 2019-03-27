@@ -7,8 +7,6 @@ class Submenu extends \Framework\ControllerCrud {
 
 	protected $modulo = [
 		'modulo' 	=> 'submenu',
-		'name'		=> 'Submenus',
-		'send'		=> 'Submenu'
 	];
 
 	protected $datatable = [

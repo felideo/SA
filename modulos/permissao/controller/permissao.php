@@ -7,7 +7,7 @@ class Permissao extends \Framework\ControllerCrud {
 
 	protected $modulo = [
 		'modulo' 	=> 'permissao',
-		'name'		=> 'Permissão',
+		'name'		=> 'Permissões',
 		'send'		=> 'Permissão'
 	];
 
@@ -71,23 +71,5 @@ class Permissao extends \Framework\ControllerCrud {
 		}
 
 		return $retorno;
-	}
-
-	public function buscar_autor_select2(){
-		$busca = carregar_variavel('busca');
-
-		$retorno = $this->model->buscar_autor($busca);
-
-		if(isset($busca['cadastrar_busca']) && !empty($busca['cadastrar_busca']) && $busca['cadastrar_busca'] == 'true' && $busca['nome'] != '%%'){
-			$add_cadastro[0] = [
-				'id'               => $busca['nome'],
-				'nome'             => "<strong>Cadastrar Novo Autor: </strong>" . $busca['nome']
-			];
-
-			$retorno = array_merge($add_cadastro, $retorno);
-		}
-
-		echo json_encode($retorno);
-		exit;
 	}
 }

@@ -44,7 +44,7 @@ class Usuario extends \Framework\Model{
 			$select .= " LIMIT {$busca['start']}, {$busca['length']}";
 		}
 
-		return $this->db->select($select);
+		return $this->select($select);
 	}
 
 	public function create($table, $data) {
@@ -62,7 +62,7 @@ class Usuario extends \Framework\Model{
 		try {
 			$select = "SELECT * FROM usuario WHERE email = '{$email}' AND ativo = 1";
 
-			return $this->db->select($select);
+			return $this->select($select);
 		}catch(Exception $e){
             if (ERROS) throw new Exception('<pre>' . $e->getMessage() . '</pre>');
 		}
@@ -71,7 +71,7 @@ class Usuario extends \Framework\Model{
 	public function check_token($token){
 		try {
 			$select = "SELECT * FROM usuario WHERE token = '{$token}'";
-			return $this->db->select($select);
+			return $this->select($select);
 		}catch(Exception $e){
             if (ERROS) throw new Exception('<pre>' . $e->getMessage() . '</pre>');
 		}

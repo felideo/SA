@@ -16,22 +16,11 @@ class Semestre extends \Framework\ControllerCrud {
 		'search'  => ['id', 'identificador', 'termino']
 	];
 
-	public function index(){
-		\Libs\Auth::handLeLoggin();
-		\Libs\Permission::check($this->modulo['modulo'], "visualizar");
-
-		$this->view->assign('permissao_criar', \Libs\Permission::check_user_permission($this->modulo['modulo'], 'criar'));
-
-		if(isset($this->datatable) && !empty($this->datatable)){
-			$this->view->set_colunas_datatable($this->datatable['colunas']);
-		}
-
+	public function middle_index() {
 		$this->view->assign('cursos', $this->model->load_active_list('curso'));
 		$this->view->assign('disciplinas', $this->model->load_active_list('disciplina'));
 		$this->view->assign('turmas', $this->model->load_active_list('turma'));
 		$this->view->assign('professores', $this->model->load_active_list('professor'));
-
-		$this->view->render('back/cabecalho_rodape_sidebar', $this->modulo['modulo'] . '/view/listagem/listagem');
 	}
 
 	protected function carregar_dados_listagem_ajax($busca){
@@ -51,28 +40,19 @@ class Semestre extends \Framework\ControllerCrud {
 		return $retorno;
 	}
 
-	public function create(){
-		\Libs\Auth::handLeLoggin();
-		\Libs\Permission::check($this->modulo['modulo'], "criar");
+	public function insert_update($dados, $where = null){
+		$insert_db                        = carregar_variavel($this->modulo['modulo']);
+		$insert_db['semestre']['termino'] = transformar_data($dados['semestre']['termino']);
+		$insert_db['semestre']['inicio']  = transformar_data($dados['semestre']['inicio']);
 
-		$dados                        = carregar_variavel($this->modulo['modulo']);
-		$dados['semestre']['termino'] = transformar_data($dados['semestre']['termino']);
-		$dados['semestre']['inicio']  = transformar_data($dados['semestre']['inicio']);
-
-
-		$retorno = $this->insert_update($dados);
-
-		if($retorno['semestre']['retorno']['status']){
-			$this->view->alert_js(ucfirst($this->modulo['modulo']) . ' cadastrado com sucesso!!!', 'sucesso');
-		} else {
-			$this->view->alert_js('Ocorreu um erro ao efetuar o cadastro do ' . strtolower($this->modulo['modulo']) . ', por favor tente novamente...', 'erro');
+		if(!empty($where)){
+			$verificar_semestre['id'] = $where['id'];
 		}
 
-		header('location: /' . $this->modulo['modulo']);
-	}
+		if(empty($where)){
+			$verificar_semestre['termino']  = $insert_db['semestre']['termino'];
+		}
 
-	public function insert_update($insert_db, $where){
-		$verificar_semestre['termino']  = $insert_db['semestre']['termino'];
 		$insert_db['semestre']['ativo'] = 1;
 
 		if(isset($insert_db['semestre']['id']) && !empty($insert_db['semestre']['id'])){
@@ -113,16 +93,12 @@ class Semestre extends \Framework\ControllerCrud {
 			);
 		}
 
-		return $insert_db;
+		return $insert_db['semestre']['retorno'];
 	}
 
-	public function visualizar($id){
-		\Libs\Auth::handLeLoggin();
-		\Libs\Permission::check($this->modulo['modulo'], "visualizar");
 
-		$this->check_if_exists($id[0]);
-
-		$cadastro            = $this->model->semestre($id[0])[0];
+	public function middle_visualizar($id){
+		$cadastro            = $this->model->semestre($id)[0];
 		$cadastro['termino'] = date('d/m/Y',  strtotime($cadastro['termino']));
 		$cadastro['inicio']  = date('d/m/Y',  strtotime($cadastro['inicio']));
 
@@ -130,68 +106,26 @@ class Semestre extends \Framework\ControllerCrud {
 		$this->view->assign('disciplinas', $this->model->load_active_list('disciplina'));
 		$this->view->assign('turmas', $this->model->load_active_list('turma'));
 		$this->view->assign('professores', $this->model->load_active_list('professor'));
-
 		$this->view->assign('cadastro', $cadastro);
-		$this->view->lazy_view();
-		$this->view->render('back/cabecalho_rodape_sidebar', $this->modulo['modulo'] . '/view/form/form');
 	}
 
-	public function editar($id){
-		\Libs\Auth::handLeLoggin();
-		\Libs\Permission::check($this->modulo['modulo'], "visualizar");
-
-		$this->check_if_exists($id[0]);
-
-		$cadastro            = $this->model->semestre($id[0])[0];
+	public function middle_editar($id){
+		$cadastro            = $this->model->semestre($id)[0];
 		$cadastro['termino'] = date('d/m/Y',  strtotime($cadastro['termino']));
 		$cadastro['inicio']  = date('d/m/Y',  strtotime($cadastro['inicio']));
-
 
 		$this->view->assign('cursos', $this->model->load_active_list('curso'));
 		$this->view->assign('disciplinas', $this->model->load_active_list('disciplina'));
 		$this->view->assign('turmas', $this->model->load_active_list('turma'));
 		$this->view->assign('professores', $this->model->load_active_list('professor'));
-
 		$this->view->assign('cadastro', $cadastro);
-		$this->view->render('back/cabecalho_rodape_sidebar', $this->modulo['modulo'] . '/view/form/form');
 	}
 
-	public function update($id){
-		\Libs\Auth::handLeLoggin();
-		\Libs\Permission::check($this->modulo['modulo'], "criar");
+	public function middle_delete($id) {
+		$retorno      = $this->model->delete($this->modulo['modulo'], ['id' => $id]);
+		$retorno_ctdp = $this->model->delete('usuario_professor_curso_turma_disciplina_semestre', ['id_semestre' => $id]);
 
-		$dados                        = carregar_variavel($this->modulo['modulo']);
-		$dados['semestre']['id']      = $id[0];
-		$dados['semestre']['termino'] = transformar_data($dados['semestre']['termino']);
-		$dados['semestre']['inicio']  = transformar_data($dados['semestre']['inicio']);
+		return $retorno;
 
-
-		$retorno = $this->insert_update($dados);
-
-		if($retorno['semestre']['retorno']['status']){
-			$this->view->alert_js(ucfirst($this->modulo['modulo']) . ' cadastrado com sucesso!!!', 'sucesso');
-		} else {
-			$this->view->alert_js('Ocorreu um erro ao efetuar o cadastro do ' . strtolower($this->modulo['modulo']) . ', por favor tente novamente...', 'erro');
-		}
-
-		header('location: /' . $this->modulo['modulo']);
-	}
-
-	public function delete($id) {
-		\Libs\Auth::handLeLoggin();
-		\Libs\Permission::check($this->modulo['modulo'], "deletar");
-
-		$this->check_if_exists($id[0]);
-
-		$retorno      = $this->model->delete($this->modulo['modulo'], ['id' => $id[0]]);
-		$retorno_ctdp = $this->model->delete('usuario_professor_curso_turma_disciplina_semestre', ['id_semestre' => $id[0]]);
-
-		if($retorno['status']){
-			$this->view->alert_js(ucfirst($this->modulo['modulo']) . ' removido com sucesso!!!', 'sucesso');
-		} else {
-			$this->view->alert_js('Ocorreu um erro ao efetuar a remoção do ' . strtolower($this->modulo['modulo']) . ', por favor tente novamente...', 'erro');
-		}
-
-		header('location: /' . $this->modulo['modulo']);
 	}
 }

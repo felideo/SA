@@ -19,6 +19,6 @@ class Autor extends \Framework\Model{
 				$select .= " LIMIT {$busca['page_limit']}";
 			}
 
-		return $this->db->select($select);
+		return $this->select($select);
 	}
 }

@@ -413,3 +413,6 @@ alter table aula add COLUMN arquivo varchar(1) not null DEFAULT 0 AFTER nome;
 ALTER TABLE `aula`
 	ADD COLUMN id_arquivo int(11) null,
    	ADD FOREIGN KEY (`id_arquivo`) REFERENCES arquivo(id) ON DELETE cascade ON UPDATE cascade;
+
+
+alter table SWDB.hierarquia add COLUMN nivel int(11) not null AFTER nome;

@@ -4,10 +4,6 @@ namespace Model;
 use Libs;
 
 class Permissao extends \Framework\Model{
-	public function __construct() {
-		parent::__construct();
-	}
-
 	public function carregar_listagem($busca, $datatable){
 		$query = $this->query;
 
@@ -51,17 +47,13 @@ class Permissao extends \Framework\Model{
 			. ' FROM permissao permissao'
 			. ' LEFT JOIN modulo modulo'
 			. ' ON modulo.id = permissao.id_modulo'
-			. ' WHERE modulo.ativo = 1';
+			. ' WHERE modulo.ativo = 1 AND permissao.ativo = 1';
 
 
-		$permissoes = $this->db->select($select);
+		$permissoes = $this->select($select);
 
-		foreach ($permissoes as $indice => $permissao) {
+		foreach($permissoes as $indice => $permissao) {
 			if(!isset($retorno[$permissao['modulo_modulo']])){
-				if($_SESSION['usuario']['hierarquia'] > $permissao['modulo_hierarquia']){
-					continue;
-				}
-
 				$retorno[$permissao['modulo_modulo']] = [
 					'modulo' => [
 						'id' => $permissao['modulo_id'],
@@ -80,9 +72,5 @@ class Permissao extends \Framework\Model{
 		}
 
 		return $retorno;
-
 	}
-
 }
-
-

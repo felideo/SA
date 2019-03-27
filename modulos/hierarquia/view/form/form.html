@@ -1,8 +1,12 @@
 {include file='views/back/form_padrao/header.html'}
 <div class="row-fluid">
-    <div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <div class="form-group col-xs-12 col-sm-12 col-md-10 col-lg-10">
         <label>Nome</label>
-        <input class="form-control somente_letras remover_caracteres_especiais embelezar_string" name="{$modulo.modulo}" value="{if isset($cadastro)}{$cadastro.nome}{/if}" required>
+        <input class="form-control somente_letras remover_caracteres_especiais embelezar_string" name="{$modulo.modulo}[nome]" value="{if isset($cadastro)}{$cadastro.nome}{/if}" required>
+    </div>
+        <div class="form-group col-xs-12 col-sm-12 col-md-2 col-lg-2">
+        <label>Nivel</label>
+        <input class="form-control somente_numeros" name="{$modulo.modulo}[nivel]" value="{if isset($cadastro)}{$cadastro.nivel}{/if}" required>
     </div>
 </div>
 

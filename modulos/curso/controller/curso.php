@@ -7,15 +7,14 @@ class Curso extends \Framework\ControllerCrud {
 
 	protected $modulo = [
 		'modulo' 	=> 'curso',
-		'name'		=> 'Cursos',
-		'send'		=> 'Curso'
 	];
 
 	protected $datatable = [
-		'colunas' => ['ID', 'Curso', 'Ações'],
+		'colunas' => ['ID <i class="fa fa-search"></i>', 'Curso <i class="fa fa-search"></i>', 'Ações'],
 		'select'  => ['id', 'curso'],
 		'from'    => 'curso',
-		'search'  => ['id', 'curso']
+		'search'  => ['id', 'curso'],
+		'ordenacao_desabilitada' => '2'
 	];
 
 	protected function carregar_dados_listagem_ajax($busca){
@@ -34,6 +33,32 @@ class Curso extends \Framework\ControllerCrud {
 		return $retorno;
 	}
 
+	public function middle_delete($id) {
+		$curso_utilizado = $this->model->query->select('
+				trabalho.id
+			')
+			->from('trabalho trabalho')
+			->where("trabalho.id_curso = {$id}")
+			->fetchArray();
+
+		if(!empty($curso_utilizado)){
+			$msg = 'O curso esta relacionado ao(s) trabalho(s) ID numero: ';
+
+			foreach($curso_utilizado as $indice => $trabalho){
+				$msg .= $trabalho['id'] . ', ';
+			}
+
+			$msg = rtrim($msg, ', ');
+			$msg .= '. Exclusão negada! Remova manualmente este curso de todos os trabalhos antes de tentar excluir-lo.';
+
+			$this->view->alert_js($msg, 'erro');
+			header('location: /' . $this->modulo['modulo']);
+			exit;
+		}
+
+		return $this->model->delete($this->modulo['modulo'], ['id' => $id]);
+	}
+
 	public function buscar_curso_select2(){
 		$busca = carregar_variavel('busca');
 
@@ -46,6 +71,10 @@ class Curso extends \Framework\ControllerCrud {
 			];
 
 			$retorno = array_merge($add_cadastro, $retorno);
+		}
+
+		if(empty($retorno)){
+			$retorno = false;
 		}
 
 		echo json_encode($retorno);

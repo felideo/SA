@@ -33,7 +33,7 @@ class Idioma extends \Framework\Model{
 			$select .= " LIMIT {$busca['start']}, {$busca['length']}";
 		}
 
-		return $this->db->select($select);
+		return $this->select($select);
 	}
 
 	public function buscar_idioma($busca){
@@ -50,6 +50,6 @@ class Idioma extends \Framework\Model{
 			$select .= " LIMIT {$busca['page_limit']}";
 		}
 
-		return $this->db->select($select);
+		return $this->select($select);
 	}
 }

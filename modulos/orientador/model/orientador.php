@@ -19,6 +19,6 @@ class Orientador extends \Framework\Model{
 				$select .= " LIMIT {$busca['page_limit']}";
 			}
 
-		return $this->db->select($select);
+		return $this->select($select);
 	}
 }

@@ -31,7 +31,7 @@ class trabalho extends \Framework\Model{
 			->leftJoin('autor autor ON autor.id = rel_autor.id_autor AND autor.ativo = 1')
 			->leftJoin('orientador orientador ON orientador.id = rel_orientador.id_orientador AND orientador.ativo = 1')
 			->where('trabalho.ativo = 1');
-			// ->whereIn($this->db->select("SELECT id from trabalho WHERE ativo = 1 LIMIT {$busca['start']}, {$busca['length']}"))
+			// ->whereIn($this->select("SELECT id from trabalho WHERE ativo = 1 LIMIT {$busca['start']}, {$busca['length']}"))
 
 			if(isset($busca['search']['value']) && !empty($busca['search']['value'])){
 				$query->where("trabalho.id LIKE '%{$busca['search']['value']}%'", 'AND')
