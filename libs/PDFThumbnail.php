@@ -4,7 +4,7 @@ namespace Libs;
 //https://github.com/spatie/pdf-to-image
 class PDFThumbnail {
 	public static function creatThumbnail($path_to_pdf){
-		$thumb_name = \Util\Hash::get_unic_hash();
+		$thumb_name = \Libs\Hash::get_unic_hash();
 
 		$thumb = new \Imagick();
 		$thumb->readImage($path_to_pdf . "[0]");

@@ -1,6 +1,5 @@
 <?php
 namespace  Libs\QueryBuilder;
-
 // colocar comentado no sql em qual local do php esta sendo rodada a query!!!
 
 class QueryBuilder{
@@ -12,6 +11,7 @@ class QueryBuilder{
 	private $join_on        = [];
 	private $first;
 	private $select = [];
+
 
 	private $parametros = [
 		'select'     => [],
@@ -138,7 +138,11 @@ class QueryBuilder{
 
 	private function tratar_select($select){
 		$select = trim(str_replace(' ', '', str_replace("\t", '', str_replace("\n", '', preg_replace('!\s+!', ' ', $select)))));
-		$select = rtrim($select, ',');
+
+		if(substr($select, -1) == ','){
+			$select = substr($select, 0, -1);
+		}
+
 		$select = explode(',', $select);
 
 		foreach ($select as &$item) {
@@ -251,13 +255,13 @@ class QueryBuilder{
 		$retorno =  $this->execute_sql_query($this->getQuery());
 
 		if($first == 'first'){
-			$return = $this->convert_to_tree($retorno)[0];
-			$this->clean_class();
-			return $return;
+			return $this->convert_to_tree($retorno);
 		}
 
 		$return = $this->convert_to_tree($retorno);
+
 		$this->clean_class();
+
 		return $return;
 	}
 
@@ -281,10 +285,7 @@ class QueryBuilder{
 		];
 
 		if(isset($retorno[2][2]) && !empty($retorno[2][2])){
-			return [
-				'error' => $retorno[2],
-				'backtrace' => debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)
-			];
+			throw new \Erro($retorno[2][2], $retorno[2][1]);
 		}
 
 		return $sth->fetchAll(\PDO::FETCH_ASSOC);
@@ -666,7 +667,6 @@ class QueryBuilder{
 
 	private function try_get_select_columns($table){
 		$columns = $this->get_columns_name($table);
-
 		if (!empty($columns)) {
 			$retorno = [];
 

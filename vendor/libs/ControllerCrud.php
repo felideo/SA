@@ -11,8 +11,8 @@ class ControllerCrud extends \Framework\Controller {
 	}
 
 	public function index() {
-		\Util\Auth::handLeLoggin();
-		\Util\Permission::check($this->modulo['modulo'], $this->modulo['modulo'] . "_" . "visualizar");
+		\Libs\Auth::handLeLoggin();
+		\Libs\Permission::check($this->modulo['modulo'], $this->modulo['modulo'] . "_" . "visualizar");
 
 		$this->view->set_colunas_datatable($this->colunas);
 
@@ -20,8 +20,8 @@ class ControllerCrud extends \Framework\Controller {
 	}
 
 	public function create(){
-		\Util\Auth::handLeLoggin();
-		\Util\Permission::check($this->modulo['modulo'], $this->modulo['modulo'] . "_" . "criar");
+		\Libs\Auth::handLeLoggin();
+		\Libs\Permission::check($this->modulo['modulo'], $this->modulo['modulo'] . "_" . "criar");
 
 		$retorno = $this->model->insert($this->modulo['modulo'], carregar_variavel($this->modulo['modulo']));
 
@@ -35,8 +35,8 @@ class ControllerCrud extends \Framework\Controller {
 	}
 
 	public function editar($id) {
-		\Util\Auth::handLeLoggin();
-		\Util\Permission::check($this->modulo['modulo'], $this->modulo['modulo'] . "_" . "editar");
+		\Libs\Auth::handLeLoggin();
+		\Libs\Permission::check($this->modulo['modulo'], $this->modulo['modulo'] . "_" . "editar");
 
 		$this->check_if_exists($id[0]);
 
@@ -45,8 +45,8 @@ class ControllerCrud extends \Framework\Controller {
 	}
 
 	public function update($id) {
-		\Util\Auth::handLeLoggin();
-		\Util\Permission::check($this->modulo['modulo'], $this->modulo['modulo'] . "_" . "editar");
+		\Libs\Auth::handLeLoggin();
+		\Libs\Permission::check($this->modulo['modulo'], $this->modulo['modulo'] . "_" . "editar");
 
 		$this->check_if_exists($id[0]);
 
@@ -62,8 +62,8 @@ class ControllerCrud extends \Framework\Controller {
 	}
 
 	public function delete($id) {
-		\Util\Auth::handLeLoggin();
-		\Util\Permission::check($this->modulo['modulo'], $this->modulo['modulo'] . "_" . "deletar");
+		\Libs\Auth::handLeLoggin();
+		\Libs\Permission::check($this->modulo['modulo'], $this->modulo['modulo'] . "_" . "deletar");
 
 		$this->check_if_exists($id[0]);
 
@@ -79,8 +79,8 @@ class ControllerCrud extends \Framework\Controller {
 	}
 
 	public function visualizar($id){
-		\Util\Auth::handLeLoggin();
-		\Util\Permission::check($this->modulo['modulo'], $this->modulo['modulo'] . "_" . "visualizar");
+		\Libs\Auth::handLeLoggin();
+		\Libs\Permission::check($this->modulo['modulo'], $this->modulo['modulo'] . "_" . "visualizar");
 
 		$this->check_if_exists($id[0]);
 

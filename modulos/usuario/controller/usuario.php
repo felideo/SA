@@ -19,12 +19,12 @@ class Usuario extends \Framework\ControllerCrud {
 
 
 	public function index() {
-		\Util\Auth::handLeLoggin();
-		\Util\Permission::check($this->modulo['modulo'], "visualizar");
+		\Libs\Auth::handLeLoggin();
+		\Libs\Permission::check($this->modulo['modulo'], "visualizar");
 
 		$this->view->set_colunas_datatable($this->datatable['colunas']);
 
-		$this->view->assign('permissao_criar', \Util\Permission::check_user_permission($this->modulo['modulo'], 'criar'));
+		$this->view->assign('permissao_criar', \Libs\Permission::check_user_permission($this->modulo['modulo'], 'criar'));
 
 		$this->view->assign('hierarquia_list', $this->model->load_active_list('hierarquia'));
 		$this->view->render('back/cabecalho_rodape_sidebar', $this->modulo['modulo'] . '/view/listagem/listagem');
@@ -53,13 +53,13 @@ class Usuario extends \Framework\ControllerCrud {
 	}
 
 	public function create(){
-		\Util\Auth::handLeLoggin();
-		\Util\Permission::check($this->modulo['modulo'], "criar");
+		\Libs\Auth::handLeLoggin();
+		\Libs\Permission::check($this->modulo['modulo'], "criar");
 
 		$usuario = carregar_variavel($this->modulo['modulo']);
 
 		$insert_db_usuario = [
-			// "senha"   => \Util\Hash::get_unic_hash()
+			// "senha"   => \Libs\Hash::get_unic_hash()
 			'senha'      => 12345,
 			'email'      => $usuario['usuario']['email'],
 			'hierarquia' => $usuario['usuario']['hierarquia'],
@@ -128,8 +128,8 @@ class Usuario extends \Framework\ControllerCrud {
 	}
 
 	public function editar($id) {
-		\Util\Auth::handLeLoggin();
-		\Util\Permission::check($this->modulo['modulo'], "editar");
+		\Libs\Auth::handLeLoggin();
+		\Libs\Permission::check($this->modulo['modulo'], "editar");
 
 		$this->check_if_exists($id[0]);
 
@@ -140,8 +140,8 @@ class Usuario extends \Framework\ControllerCrud {
 	}
 
 	public function visualizar($id){
-		\Util\Auth::handLeLoggin();
-		\Util\Permission::check($this->modulo['modulo'], "visualizar");
+		\Libs\Auth::handLeLoggin();
+		\Libs\Permission::check($this->modulo['modulo'], "visualizar");
 
 		$this->check_if_exists($id[0]);
 
@@ -153,8 +153,8 @@ class Usuario extends \Framework\ControllerCrud {
 	}
 
 	public function update($id) {
-		\Util\Auth::handLeLoggin();
-		\Util\Permission::check($this->modulo['modulo'], "editar");
+		\Libs\Auth::handLeLoggin();
+		\Libs\Permission::check($this->modulo['modulo'], "editar");
 
 		$this->check_if_exists($id[0]);
 
@@ -188,8 +188,8 @@ class Usuario extends \Framework\ControllerCrud {
 	}
 
 	public function delete($id) {
-		\Util\Auth::handLeLoggin();
-		\Util\Permission::check($this->modulo['modulo'], "deletar");
+		\Libs\Auth::handLeLoggin();
+		\Libs\Permission::check($this->modulo['modulo'], "deletar");
 
 		$this->check_if_exists($id[0]);
 

@@ -17,7 +17,7 @@ class Modulo extends \Framework\ControllerCrud {
 	];
 
 	public function index() {
-		\Util\Permission::check($this->modulo['modulo'], $this->modulo['modulo'] . "_" . "visualizar");
+		\Libs\Permission::check($this->modulo['modulo'], $this->modulo['modulo'] . "_" . "visualizar");
 
 		$this->view->set_colunas_datatable($this->datatable['colunas']);
 
@@ -46,7 +46,7 @@ class Modulo extends \Framework\ControllerCrud {
 	}
 
 	public function editar($id) {
-		\Util\Permission::check($this->modulo['modulo'], $this->modulo['modulo'] . "_" . "editar");
+		\Libs\Permission::check($this->modulo['modulo'], $this->modulo['modulo'] . "_" . "editar");
 
 		$this->view->assign('cadastro', $this->model->full_load_by_id('modulo', $id[0])[0]);
 		$this->view->assign('submenu_list', $this->model->load_active_list('submenu'));
@@ -54,7 +54,7 @@ class Modulo extends \Framework\ControllerCrud {
 	}
 
 	public function visualizar($id){
-		\Util\Permission::check($this->modulo['modulo'], $this->modulo['modulo'] . "_" . "visualizar");
+		\Libs\Permission::check($this->modulo['modulo'], $this->modulo['modulo'] . "_" . "visualizar");
 
 		$this->view->assign('cadastro', $this->model->full_load_by_id('modulo', $id[0])[0]);
 		$this->view->assign('submenu_list', $this->model->load_active_list('submenu'));
@@ -64,7 +64,7 @@ class Modulo extends \Framework\ControllerCrud {
 	}
 
 	public function create() {
-		\Util\Permission::check($this->modulo['modulo'], $this->modulo['modulo'] . "_" . "criar");
+		\Libs\Permission::check($this->modulo['modulo'], $this->modulo['modulo'] . "_" . "criar");
 		$insert_db = carregar_variavel($this->modulo['modulo']);
 
 		if(empty($insert_db['id_submenu'])){
@@ -87,7 +87,7 @@ class Modulo extends \Framework\ControllerCrud {
 	}
 
 	public function update($id) {
-		\Util\Permission::check($this->modulo['modulo'], $this->modulo['modulo'] . "_" . "editar");
+		\Libs\Permission::check($this->modulo['modulo'], $this->modulo['modulo'] . "_" . "editar");
 		$update_db = carregar_variavel($this->modulo['modulo']);
 
 		if(empty($update_db['id_submenu'])){
@@ -106,7 +106,7 @@ class Modulo extends \Framework\ControllerCrud {
 	}
 
 	public function delete($id) {
-		\Util\Permission::check($this->modulo['modulo'], $this->modulo['modulo'] . "_" . "deletar");
+		\Libs\Permission::check($this->modulo['modulo'], $this->modulo['modulo'] . "_" . "deletar");
 
 		$retorno = $this->model->delete($this->modulo['modulo'], ['id' => $id[0]]);
 

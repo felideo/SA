@@ -5,14 +5,14 @@ use Libs;
 
 class Login extends \Framework\Controller {
 
-	private $modulo = [
+	protected $modulo = [
 		'modulo' 	=> 'login',
 		'name'		=> 'Login',
 		'send'		=> 'Login'
 	];
 
 	public function __construct() {
-		// \Util\Auth::handLeLoggin();
+		// \Libs\Auth::handLeLoggin();
 		parent::__construct();
 
 		$this->view->modulo = $this->modulo;

@@ -5,7 +5,7 @@ use Libs;
 
 class busca extends \Framework\Controller {
 
-	private $modulo = [
+	protected $modulo = [
 		'modulo' 	=> 'busca',
 		'name'		=> 'Busca',
 		'send'		=> 'Buscar'

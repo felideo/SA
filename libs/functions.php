@@ -1,6 +1,5 @@
 <?php
 
-//Por Felideo Oficial!
 function debug2($var, $legenda = false, $exit = false) {
     //Se for ajax deve ser exibido em JSON FORMAT
     // if(!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
@@ -45,12 +44,37 @@ function debug2($var, $legenda = false, $exit = false) {
         // echo "\n=============== FIM ===============\n";
         echo "\n";
         debug_print_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
+        echo "\n";
+
         echo "</pre>";
     // }
 
     if ($exit) {
         die;
     }
+}
+
+function toText($msg){
+    ob_start();
+    echo "\n<pre>";
+
+    if (is_array($msg)) {
+        echo utf8_encode(print_r($msg, true));
+    } else if (is_string($msg)) {
+        echo "string(" . strlen($msg) . ") \"" . utf8_encode($msg) . "\"\n";
+    } else if(is_object($msg)){
+        echo "OBJECT \n\n";
+        echo utf8_encode(print_r(var_export($msg), true));
+    } else {
+        echo var_dump($msg);
+    }
+
+    echo "\n";
+    echo "</pre>";
+
+    $msg = ob_get_clean();
+
+    return $msg;
 }
 
 function carregar_variavel($nome, $padrao = '') {
@@ -87,7 +111,7 @@ function carregar_variavel($nome, $padrao = '') {
 function transformar_array($variavel) {
 
     if (!is_array($variavel)) {
-        return trim($variavel);
+        return trim(preg_replace('/\s+/', ' ', $variavel));
     }
 
     foreach ($variavel as $chave => $cada) {
@@ -97,13 +121,13 @@ function transformar_array($variavel) {
         } else {
 
             if (substr($chave, 0, 8) == 'numero__') {
-                $variavel[substr($chave, 8)] = transformar_numero(trim($cada));
+                $variavel[substr($chave, 8)] = transformar_numero(trim(preg_replace('/\s+/', ' ', $cada)));
                 unset($variavel[$chave]);
             } else if (substr($chave, 0, 6) == 'data__') {
-                $variavel[substr($chave, 6)] = transformar_data(trim($cada));
+                $variavel[substr($chave, 6)] = transformar_data(trim(preg_replace('/\s+/', ' ', $cada)));
                 unset($variavel[$chave]);
             } else if (substr($chave, 0, 7) == 'senha__') {
-                $variavel[substr($chave, 7)] = transformar_senha(trim($cada));
+                $variavel[substr($chave, 7)] = transformar_senha(trim(preg_replace('/\s+/', ' ', $cada)));
                 unset($variavel[$chave]);
             }
         }
@@ -113,6 +137,7 @@ function transformar_array($variavel) {
 }
 
 function transformar_data($data) {
+
     $var = $data;
 
     $dataHora = explode(' ', $var);
@@ -252,4 +277,20 @@ function performance_stop(){
     unset($_SESSION['performance_test']);
 
     debug2($retorno, $print_acha_facil);
+}
+
+function show_errors($show_erros = false){
+	if(!empty($show_erros)){
+		error_reporting(E_ALL);
+		ini_set('display_startup_errors', 1);
+		ini_set('display_errors', 1);
+
+		return;
+	}
+
+	error_reporting(0);
+	ini_set('display_startup_errors', 0);
+    ini_set('display_errors', 0);
+
+    return;
 }

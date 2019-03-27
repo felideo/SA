@@ -3,7 +3,7 @@ namespace Controller;
 
 class Acesso extends \Framework\Controller {
 
-	private $modulo = [
+	protected $modulo = [
 		'modulo' 	=> 'acesso',
 		'name'		=> 'Acesso',
 		'send'		=> 'Acesso'

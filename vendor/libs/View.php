@@ -131,19 +131,19 @@ class View {
 		$botao_excluir    = '';
 
 		if($visualizar){
-			$botao_visualizar = \Util\Permission::check_user_permission($this->modulo['modulo'], $this->modulo['modulo'] . "_" . "visualizar") ?
+			$botao_visualizar = \Libs\Permission::check_user_permission($this->modulo['modulo'], $this->modulo['modulo'] . "_" . "visualizar") ?
 				"<a href='/{$this->modulo['modulo']}/visualizar/{$id}' title='Visualizar'><i class='fa fa-eye fa-fw'></i></a>" :
 				'';
 			}
 
 		if($editar){
-			$botao_editar = \Util\Permission::check_user_permission($this->modulo['modulo'], $this->modulo['modulo'] . "_" . "editar") ?
+			$botao_editar = \Libs\Permission::check_user_permission($this->modulo['modulo'], $this->modulo['modulo'] . "_" . "editar") ?
 				"<a href='/{$this->modulo['modulo']}/editar/{$id}' title='Editar'><i class='fa fa-pencil fa-fw'></i></a>" :
 				 '';
 		}
 
 		if($excluir){
-			$botao_excluir = \Util\Permission::check_user_permission($this->modulo['modulo'], $this->modulo['modulo'] . "_" . "deletar") ?
+			$botao_excluir = \Libs\Permission::check_user_permission($this->modulo['modulo'], $this->modulo['modulo'] . "_" . "deletar") ?
 				"<a href='/{$this->modulo['modulo']}/delete/{$id}' title='Deletar'><i class='fa fa-trash-o fa-fw'></i></a>" :
 				'';
 		}

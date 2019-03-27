@@ -19,12 +19,12 @@ class Aluno extends \Framework\ControllerCrud {
 	];
 
 	public function index(){
-		\Util\Auth::handLeLoggin();
-		\Util\Permission::check($this->modulo['modulo'], "visualizar");
+		\Libs\Auth::handLeLoggin();
+		\Libs\Permission::check($this->modulo['modulo'], "visualizar");
 
 		$id_usuario = $_SESSION['usuario']['id'];
 
-		$this->view->assign('permissao_criar', \Util\Permission::check_user_permission($this->modulo['modulo'], 'criar'));
+		$this->view->assign('permissao_criar', \Libs\Permission::check_user_permission($this->modulo['modulo'], 'criar'));
 
 		$ctdp = $this->model->carregar_ctdp($id_usuario);
 		$ctdp = $this->tratar_ctdp_lista($ctdp);
@@ -82,8 +82,8 @@ class Aluno extends \Framework\ControllerCrud {
 	}
 
 	public function visualizar_acessos($id){
-		\Util\Auth::handLeLoggin();
-		// \Util\Permission::check($this->modulo['modulo'], "visualizar");
+		\Libs\Auth::handLeLoggin();
+		// \Libs\Permission::check($this->modulo['modulo'], "visualizar");
 		$this->view->set_colunas_datatable(['Ação', 'Data']);
 		$this->view->assign('listagem_alternativa', $this->modulo['modulo'] . '/carregar_dados_listagem_visualizar_acessos_ajax/'  . $id[0]);
 		$this->view->render('back/cabecalho_rodape_sidebar', $this->modulo['modulo'] . '/view/listagem/listagem_acessos');
@@ -146,7 +146,7 @@ class Aluno extends \Framework\ControllerCrud {
 			$insert_db = [
 				'usuario' => [
 					'email'      => $aluno['email_aluno'],
-					'senha'      => \Util\Hash::get_unic_hash(),
+					'senha'      => \Libs\Hash::get_unic_hash(),
 					'hierarquia' => 5,
 				],
 				'aluno' => [
@@ -193,14 +193,14 @@ class Aluno extends \Framework\ControllerCrud {
 	}
 
 	public function visualizar($id){
-		\Util\Auth::handLeLoggin();
-		\Util\Permission::check($this->modulo['modulo'], "visualizar");
+		\Libs\Auth::handLeLoggin();
+		\Libs\Permission::check($this->modulo['modulo'], "visualizar");
 
 		$this->check_if_exists($id[0]);
 
 		$id_usuario = $_SESSION['usuario']['id'];
 
-		$this->view->assign('permissao_criar', \Util\Permission::check_user_permission($this->modulo['modulo'], 'criar'));
+		$this->view->assign('permissao_criar', \Libs\Permission::check_user_permission($this->modulo['modulo'], 'criar'));
 
 		$ctdp = $this->model->carregar_ctdp($id_usuario);
 		$ctdp = $this->tratar_ctdp_lista($ctdp);
@@ -217,14 +217,14 @@ class Aluno extends \Framework\ControllerCrud {
 
 
 	public function editar($id){
-		\Util\Auth::handLeLoggin();
-		\Util\Permission::check($this->modulo['modulo'], "visualizar");
+		\Libs\Auth::handLeLoggin();
+		\Libs\Permission::check($this->modulo['modulo'], "visualizar");
 
 		$this->check_if_exists($id[0]);
 
 		$id_usuario = $_SESSION['usuario']['id'];
 
-		$this->view->assign('permissao_criar', \Util\Permission::check_user_permission($this->modulo['modulo'], 'criar'));
+		$this->view->assign('permissao_criar', \Libs\Permission::check_user_permission($this->modulo['modulo'], 'criar'));
 
 		$ctdp = $this->model->carregar_ctdp($id_usuario);
 		$ctdp = $this->tratar_ctdp_lista($ctdp);

@@ -10,6 +10,16 @@ abstract class Strings{
         return strtolower(trim(preg_replace('/\s+/', ' ',$string)));
     }
 
+    //Retorna somente, numeros e  letras e hifens
+    static function limpezaCompleta($string, $excecao = array(), $replace = ''){
+    	$string = Strings::remover_caracteres_especiais($string, $excecao, $replace);
+		$string = Strings::limparStringCompleto($string);
+		$string = Strings::remover_acentos($string);
+		$string = Strings::removerCaracteresMultiplicados('-', $string);
+
+		return $string;
+	}
+
     // Remove espaçoes em branco no inicio e fim da string
 	// Subistitui mais d um espaço junto por um unico espaço
 	// Coloca tudo em letras minusculas
@@ -24,7 +34,7 @@ abstract class Strings{
     }
 
     static function removerCaracteresMultiplicados($caractere, $string){
-    	return preg_replace('/' . $caractere . '+/', $caractere,$string);
+    	return preg_replace('/' . $caractere . '+/', $caractere, $string);
     }
 
     static function limparFloat($string){
@@ -42,13 +52,14 @@ abstract class Strings{
     	return (float) str_replace(',', '.', $float);
     }
 
-    static function remover_caracteres_especiais($variavel, $excecao = array()) {
-	    $a = array(',', '/', '(', ')', '-', '.', '&', '"', '\'', '|', '[', ']', '*', '#', '$', '%', '§', '´', '^', '+', '~', '?', '=', 'ª', 'º');
+    static function remover_caracteres_especiais($variavel, $excecao = array(), $replace = '') {
+	    $a = array(',', '/', '(', ')', '-', '.', '&', '"', '\'', '|', '[', ']', '*', '#', '$', '%', '§', '´', '^', '+', '~', '?', '=', 'ª', 'º', ':', '!', '¡', '’', '–', '¿');
 	    foreach ($excecao as $regra) {
 	        $key = array_search($regra, $a);
 	        unset($a[$key]);
 	    }
-	    $b = array('', '', '', '', '', '', 'e', '', '', '', '', '', '', '', '', '', '', '', '', '', '');
+
+	    $b = array($replace, $replace, $replace, $replace, $replace, $replace, 'e', $replace, $replace, $replace, $replace, $replace, $replace, $replace, $replace, $replace, $replace, $replace, $replace, $replace, $replace, $replace, $replace, $replace, $replace, $replace, $replace, $replace, $replace, $replace, $replace);
 
 	    $variavel = str_replace($a, $b, $variavel);
 	    return $variavel;

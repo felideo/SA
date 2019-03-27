@@ -3,7 +3,7 @@ namespace Controller;
 
 class Error extends \Framework\Controller {
 
-	private $modulo = [
+	protected $modulo = [
 		'modulo' 	=> 'error',
 		'name'		=> 'Error',
 		'send'		=> 'Errors'

@@ -17,10 +17,10 @@ class Semestre extends \Framework\ControllerCrud {
 	];
 
 	public function index(){
-		\Util\Auth::handLeLoggin();
-		\Util\Permission::check($this->modulo['modulo'], "visualizar");
+		\Libs\Auth::handLeLoggin();
+		\Libs\Permission::check($this->modulo['modulo'], "visualizar");
 
-		$this->view->assign('permissao_criar', \Util\Permission::check_user_permission($this->modulo['modulo'], 'criar'));
+		$this->view->assign('permissao_criar', \Libs\Permission::check_user_permission($this->modulo['modulo'], 'criar'));
 
 		if(isset($this->datatable) && !empty($this->datatable)){
 			$this->view->set_colunas_datatable($this->datatable['colunas']);
@@ -52,8 +52,8 @@ class Semestre extends \Framework\ControllerCrud {
 	}
 
 	public function create(){
-		\Util\Auth::handLeLoggin();
-		\Util\Permission::check($this->modulo['modulo'], "criar");
+		\Libs\Auth::handLeLoggin();
+		\Libs\Permission::check($this->modulo['modulo'], "criar");
 
 		$dados                        = carregar_variavel($this->modulo['modulo']);
 		$dados['semestre']['termino'] = transformar_data($dados['semestre']['termino']);
@@ -71,7 +71,7 @@ class Semestre extends \Framework\ControllerCrud {
 		header('location: /' . $this->modulo['modulo']);
 	}
 
-	private function insert_update($insert_db){
+	public function insert_update($insert_db, $where){
 		$verificar_semestre['termino']  = $insert_db['semestre']['termino'];
 		$insert_db['semestre']['ativo'] = 1;
 
@@ -117,8 +117,8 @@ class Semestre extends \Framework\ControllerCrud {
 	}
 
 	public function visualizar($id){
-		\Util\Auth::handLeLoggin();
-		\Util\Permission::check($this->modulo['modulo'], "visualizar");
+		\Libs\Auth::handLeLoggin();
+		\Libs\Permission::check($this->modulo['modulo'], "visualizar");
 
 		$this->check_if_exists($id[0]);
 
@@ -137,8 +137,8 @@ class Semestre extends \Framework\ControllerCrud {
 	}
 
 	public function editar($id){
-		\Util\Auth::handLeLoggin();
-		\Util\Permission::check($this->modulo['modulo'], "visualizar");
+		\Libs\Auth::handLeLoggin();
+		\Libs\Permission::check($this->modulo['modulo'], "visualizar");
 
 		$this->check_if_exists($id[0]);
 
@@ -157,8 +157,8 @@ class Semestre extends \Framework\ControllerCrud {
 	}
 
 	public function update($id){
-		\Util\Auth::handLeLoggin();
-		\Util\Permission::check($this->modulo['modulo'], "criar");
+		\Libs\Auth::handLeLoggin();
+		\Libs\Permission::check($this->modulo['modulo'], "criar");
 
 		$dados                        = carregar_variavel($this->modulo['modulo']);
 		$dados['semestre']['id']      = $id[0];
@@ -178,8 +178,8 @@ class Semestre extends \Framework\ControllerCrud {
 	}
 
 	public function delete($id) {
-		\Util\Auth::handLeLoggin();
-		\Util\Permission::check($this->modulo['modulo'], "deletar");
+		\Libs\Auth::handLeLoggin();
+		\Libs\Permission::check($this->modulo['modulo'], "deletar");
 
 		$this->check_if_exists($id[0]);
 

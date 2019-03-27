@@ -20,9 +20,9 @@ define('PREVENT_CACHE', true);
 
 define('APP_NAME', 'Sistema de Aula');
 
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
-
-if (function_exists('xdebug_disable')){
-	xdebug_disable();
+if(function_exists('xdebug_disable')){
+		xdebug_disable();
 }
+
+define('EMAIL_EMAIL', 'desenvolvedor.3119@ggmail.com');
+define('EMAIL_SENHA', '..88lilith20~gmail');

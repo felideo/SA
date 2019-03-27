@@ -17,12 +17,12 @@ class Aula extends \Framework\ControllerCrud {
 	];
 
 	public function index(){
-		\Util\Auth::handLeLoggin();
-		\Util\Permission::check($this->modulo['modulo'], "visualizar");
+		\Libs\Auth::handLeLoggin();
+		\Libs\Permission::check($this->modulo['modulo'], "visualizar");
 
 		$id_usuario = $_SESSION['usuario']['id'];
 
-		$this->view->assign('permissao_criar', \Util\Permission::check_user_permission($this->modulo['modulo'], 'criar'));
+		$this->view->assign('permissao_criar', \Libs\Permission::check_user_permission($this->modulo['modulo'], 'criar'));
 
 		$ctdp = $this->get_model('aluno')->carregar_ctdp($id_usuario);
 		$ctdp = $this->get_controller('aluno')->tratar_ctdp_lista($ctdp);
@@ -62,8 +62,8 @@ class Aula extends \Framework\ControllerCrud {
 	}
 
 	public function editar($id) {
-		\Util\Auth::handLeLoggin();
-		\Util\Permission::check($this->modulo['modulo'], "editar");
+		\Libs\Auth::handLeLoggin();
+		\Libs\Permission::check($this->modulo['modulo'], "editar");
 
 		$this->check_if_exists($id[0]);
 
@@ -84,8 +84,8 @@ class Aula extends \Framework\ControllerCrud {
 	}
 
 	public function visualizar($id){
-		\Util\Auth::handLeLoggin();
-		\Util\Permission::check($this->modulo['modulo'], "visualizar");
+		\Libs\Auth::handLeLoggin();
+		\Libs\Permission::check($this->modulo['modulo'], "visualizar");
 
 		$this->check_if_exists($id[0]);
 

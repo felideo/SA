@@ -5,7 +5,7 @@ use Libs;
 
 class Instalacao extends \Framework\Controller {
 
-	private $modulo = [
+	protected $modulo = [
 		'modulo' 	=> 'instalacao',
 		'name'		=> 'Instalação',
 		'send'		=> 'Instalar'

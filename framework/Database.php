@@ -1,9 +1,6 @@
 <?php
 namespace Framework;
 
-/**
-*
-*/
 class Database extends \PDO {
 	public function __construct($DB_TYPE, $DB_HOST, $DB_NAME, $DB_USER, $DB_PASS){
 		try {
@@ -43,13 +40,26 @@ class Database extends \PDO {
 		];
 
 		if(isset($retorno[2][2]) && !empty($retorno[2][2])){
-			return [
-				'error' => $retorno[2],
-				'backtrace' => debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)
-			];
+			throw new \Erro($retorno[2][2], $retorno[2][1]);
 		}
 
 		return $sth->fetchAll($fetchMode);
+	}
+
+	public function execute($sql){
+		$sth = $this->prepare($sql);
+
+		$retorno = [
+			$sth->execute(),
+			$sth->errorCode(),
+			$sth->errorInfo()
+		];
+
+		if(isset($retorno[2][2]) && !empty($retorno[2][2])){
+			throw new \Erro($retorno[2][2], $retorno[2][1]);
+		}
+
+		return $retorno;
 	}
 
 	/**

@@ -14,7 +14,7 @@ class Senha extends \Framework\Controller {
 		$usuario = $model_usuario->load_user_by_email($email);
 
 		if(isset($usuario[0]) && !empty($usuario[0])){
-			$hash =  \Util\Hash::get_unic_hash();
+			$hash =  \Libs\Hash::get_unic_hash();
 			$retorno_hash = $model_usuario->update('usuario', ['id' => $usuario[0]['id']], ['token' => $hash]);
 			$retorno_hash = $model_usuario->update('usuario', ['id' => $usuario[0]['id']], ['senha' => md5($hash)]);
 		} else {

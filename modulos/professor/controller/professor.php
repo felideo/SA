@@ -17,11 +17,11 @@ class Professor extends \Framework\ControllerCrud {
 	];
 
 	public function index(){
-		\Util\Auth::handLeLoggin();
-		\Util\Permission::check($this->modulo['modulo'], "visualizar");
+		\Libs\Auth::handLeLoggin();
+		\Libs\Permission::check($this->modulo['modulo'], "visualizar");
 
 		$this->view->set_colunas_datatable($this->datatable['colunas']);
-		$this->view->assign('permissao_criar', \Util\Permission::check_user_permission($this->modulo['modulo'], 'criar'));
+		$this->view->assign('permissao_criar', \Libs\Permission::check_user_permission($this->modulo['modulo'], 'criar'));
 		$this->view->render('back/cabecalho_rodape_sidebar', $this->modulo['modulo'] . '/view/listagem/listagem');
 	}
 
@@ -42,15 +42,15 @@ class Professor extends \Framework\ControllerCrud {
 	}
 
 	public function create(){
-		\Util\Auth::handLeLoggin();
-		\Util\Permission::check($this->modulo['modulo'], "criar");
+		\Libs\Auth::handLeLoggin();
+		\Libs\Permission::check($this->modulo['modulo'], "criar");
 
 		$dados = carregar_variavel($this->modulo['modulo']);
 
 		$insert_db = [
 			'usuario'   => [
 				'email'      => $dados['professor']['email'],
-				'senha'      => \Util\Hash::get_unic_hash(),
+				'senha'      => \Libs\Hash::get_unic_hash(),
 				'hierarquia' => 3,
 			],
 			'professor' => [
@@ -81,8 +81,8 @@ class Professor extends \Framework\ControllerCrud {
 	}
 
 	public function visualizar($id){
-		\Util\Auth::handLeLoggin();
-		\Util\Permission::check($this->modulo['modulo'], "visualizar");
+		\Libs\Auth::handLeLoggin();
+		\Libs\Permission::check($this->modulo['modulo'], "visualizar");
 
 		$this->check_if_exists($id[0]);
 
@@ -94,8 +94,8 @@ class Professor extends \Framework\ControllerCrud {
 	}
 
 	public function editar($id){
-		\Util\Auth::handLeLoggin();
-		\Util\Permission::check($this->modulo['modulo'], "visualizar");
+		\Libs\Auth::handLeLoggin();
+		\Libs\Permission::check($this->modulo['modulo'], "visualizar");
 
 		$this->check_if_exists($id[0]);
 
@@ -106,15 +106,15 @@ class Professor extends \Framework\ControllerCrud {
 	}
 
 	public function update($id){
-		\Util\Auth::handLeLoggin();
-		\Util\Permission::check($this->modulo['modulo'], "criar");
+		\Libs\Auth::handLeLoggin();
+		\Libs\Permission::check($this->modulo['modulo'], "criar");
 
 		$dados = carregar_variavel($this->modulo['modulo']);
 
 		$insert_db = [
 			'usuario'   => [
 				'email'      => $dados['professor']['email'],
-				'senha'      => \Util\Hash::get_unic_hash(),
+				'senha'      => \Libs\Hash::get_unic_hash(),
 				'hierarquia' => 3,
 			],
 			'professor' => [
@@ -161,8 +161,8 @@ class Professor extends \Framework\ControllerCrud {
 	}
 
 	public function delete($id) {
-		\Util\Auth::handLeLoggin();
-		\Util\Permission::check($this->modulo['modulo'], "deletar");
+		\Libs\Auth::handLeLoggin();
+		\Libs\Permission::check($this->modulo['modulo'], "deletar");
 
 		$this->check_if_exists($id[0]);
 		$id_usuario = $this->model->full_load_by_id('professor', $id[0])[0]['id_usuario'];

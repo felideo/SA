@@ -3,7 +3,7 @@ namespace Controller;
 
 class Index extends \Framework\Controller {
 
-	private $modulo = [
+	protected $modulo = [
 		'modulo' 	=> 'index',
 		'name'		=> 'Index',
 		'send'		=> 'Index'

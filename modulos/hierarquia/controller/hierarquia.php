@@ -19,8 +19,8 @@ class Hierarquia extends \Framework\ControllerCrud {
 	];
 
 	public function index() {
-		\Util\Permission::check($this->modulo['modulo'], "visualizar");
-		$this->view->assign('permissao_criar', \Util\Permission::check_user_permission($this->modulo['modulo'], 'criar'));
+		\Libs\Permission::check($this->modulo['modulo'], "visualizar");
+		$this->view->assign('permissao_criar', \Libs\Permission::check_user_permission($this->modulo['modulo'], 'criar'));
 
 
 		$this->view->set_colunas_datatable(['ID', 'Nome', 'Ações']);
@@ -50,7 +50,7 @@ class Hierarquia extends \Framework\ControllerCrud {
 	}
 
 	public function editar($id) {
-		\Util\Permission::check($this->modulo['modulo'], "editar");
+		\Libs\Permission::check($this->modulo['modulo'], "editar");
 
 		$this->view->assign('cadastro', $this->model->load_hierarquia($id[0]));
 		$this->view->assign('permissoes_list', $this->load_external_model('permissao')->load_permissions_list());
@@ -58,7 +58,7 @@ class Hierarquia extends \Framework\ControllerCrud {
 	}
 
 	public function visualizar($id){
-		\Util\Permission::check($this->modulo['modulo'], "visualizar");
+		\Libs\Permission::check($this->modulo['modulo'], "visualizar");
 
 		$this->view->assign('cadastro', $this->model->load_hierarquia($id[0]));
 		$this->view->assign('permissoes_list', $this->load_external_model('permissao')->load_permissions_list());
@@ -67,7 +67,7 @@ class Hierarquia extends \Framework\ControllerCrud {
 	}
 
 	public function create() {
-		\Util\Permission::check($this->modulo['modulo'], "criar");
+		\Libs\Permission::check($this->modulo['modulo'], "criar");
 
 		$insert_db = ['nome' => carregar_variavel($this->modulo['modulo'])];
 
@@ -100,7 +100,7 @@ class Hierarquia extends \Framework\ControllerCrud {
 	}
 
 	public function update($id) {
-		\Util\Permission::check($this->modulo['modulo'], "editar");
+		\Libs\Permission::check($this->modulo['modulo'], "editar");
 
 		$update_db = ['nome' => carregar_variavel($this->modulo['modulo'])];
 		$retorno = $this->model->update($this->modulo['modulo'], ['id' => $id[0]], $update_db);
@@ -159,7 +159,7 @@ class Hierarquia extends \Framework\ControllerCrud {
 
 	public function delete($id) {
 
-		\Util\Permission::check($this->modulo['modulo'], "deletar");
+		\Libs\Permission::check($this->modulo['modulo'], "deletar");
 
 		$retorno = $this->model->delete($this->modulo['modulo'], ['id' => $id[0]]);
 		// $retorno = $this->model->delete('permissao', ['id' => $id[0]]);

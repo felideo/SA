@@ -15,4 +15,8 @@ class Hash {
 
 		return hash_final($context);
 	}
+
+	public static function get_unic_hash() {
+		return md5(uniqid(rand(), true));
+	}
 }

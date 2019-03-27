@@ -10,7 +10,7 @@ class Perfil extends \Framework\ControllerCrud {
 	];
 
 	public function index(){
-		\Util\Auth::handLeLoggin();
+		\Libs\Auth::handLeLoggin();
 
 		$cadastro = $this->model->carregar_dados_usuario($_SESSION['usuario']['id']);
 		$this->view->assign('cadastro', $cadastro);

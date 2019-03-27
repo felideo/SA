@@ -51,11 +51,11 @@ class Trabalho extends \Framework\ControllerCrud {
 				$orientador .= isset($um_orientador['orientador'][0]['nome']) ? $um_orientador['orientador'][0]['nome'] . ' ' : ' ';
 			}
 
-			$botao_aprovar = \Util\Permission::check_user_permission($this->modulo['modulo'], "aprovar") && ($item['status'] == 0 || $item['status'] == 2) ?
+			$botao_aprovar = \Libs\Permission::check_user_permission($this->modulo['modulo'], "aprovar") && ($item['status'] == 0 || $item['status'] == 2) ?
 				"<a href='/{$this->modulo['modulo']}/aprovar/{$item['id']}' title='Visualizar'><i class='botao_listagem fa fa-check-circle fa-fw'></i></a>" :
 				'';
 
-			$botao_reprovar = \Util\Permission::check_user_permission($this->modulo['modulo'], "reprovar") && ($item['status'] == 0 || $item['status'] == 1) ?
+			$botao_reprovar = \Libs\Permission::check_user_permission($this->modulo['modulo'], "reprovar") && ($item['status'] == 0 || $item['status'] == 1) ?
 				"<a href='/{$this->modulo['modulo']}/reprovar/{$item['id']}' title='Visualizar'><i class='botao_listagem fa fa-times-circle fa-fw'></i></a>" :
 				'';
 
@@ -94,8 +94,8 @@ class Trabalho extends \Framework\ControllerCrud {
 	}
 
 	public function create(){
-		\Util\Auth::handLeLoggin();
-		\Util\Permission::check($this->modulo['modulo'], "criar");
+		\Libs\Auth::handLeLoggin();
+		\Libs\Permission::check($this->modulo['modulo'], "criar");
 
 		$trabalho = carregar_variavel('trabalho');
 
@@ -131,8 +131,8 @@ class Trabalho extends \Framework\ControllerCrud {
 	}
 
 	public function update($parametros){
-		\Util\Auth::handLeLoggin();
-		\Util\Permission::check($this->modulo['modulo'], "criar");
+		\Libs\Auth::handLeLoggin();
+		\Libs\Permission::check($this->modulo['modulo'], "criar");
 
 		$trabalho = carregar_variavel('trabalho');
 
@@ -173,8 +173,8 @@ class Trabalho extends \Framework\ControllerCrud {
 	}
 
 	public function visualizar($id){
-		\Util\Auth::handLeLoggin();
-		\Util\Permission::check($this->modulo['modulo'], "visualizar");
+		\Libs\Auth::handLeLoggin();
+		\Libs\Permission::check($this->modulo['modulo'], "visualizar");
 
 		$this->check_if_exists($id[0]);
 
@@ -185,8 +185,8 @@ class Trabalho extends \Framework\ControllerCrud {
 	}
 
 	public function editar($id){
-		\Util\Auth::handLeLoggin();
-		\Util\Permission::check($this->modulo['modulo'], "editar");
+		\Libs\Auth::handLeLoggin();
+		\Libs\Permission::check($this->modulo['modulo'], "editar");
 
 		$this->check_if_exists($id[0]);
 

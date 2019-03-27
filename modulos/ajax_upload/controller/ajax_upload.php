@@ -23,7 +23,7 @@ class ajax_upload extends \Framework\Controller {
 		$filename   = $pathinfo['filename'];
 		$ext        = @$pathinfo['extension'];
 		$ext        = ($ext == '') ? $ext : '.' . $ext;
-		$hash       = \Util\Hash::get_unic_hash();
+		$hash       = \Libs\Hash::get_unic_hash();
 		$uploadname = $hash . $ext;
 
 		if (!move_uploaded_file($_FILES['qqfile']['tmp_name'], 'uploads/' . $_POST['local'] . '/' . $uploadname)) {
