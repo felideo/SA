@@ -1,14 +1,12 @@
 		<script type="text/javascript">
-		    <?php
-		        if(isset($_SESSION['alertas'])) {
-		            echo $_SESSION['alertas'];
-		        }
-		    ?>
-
 		    $(window).load(function(){
-		    	limpar_alertas_ajax();
-		    });
+		    	{if isset($_SESSION['alertas'])}
+                    {$_SESSION['alertas']}
+                {/if}
 
+		    	limpar_alertas_ajax();
+                limpar_notificacoes_ajax();
+		    });
 		</script>
 	</body>
 </html>

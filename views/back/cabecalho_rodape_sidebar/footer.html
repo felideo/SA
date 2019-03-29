@@ -85,15 +85,17 @@
 
 
         <script type="text/javascript">
-            {if isset($_SESSION['alertas'])}
-                {$_SESSION['alertas']}
-            {/if}
+            $(document).ready(function(){
+                {if isset($_SESSION['alertas'])}
+                    {$_SESSION['alertas']}
+                {/if}
 
-            {if isset($_SESSION['notificacoes'])}
-                {foreach from=$_SESSION['notificacoes'] item=notificacao}
-                    {$notificacao}
-                {/foreach}
-            {/if}
+                {if isset($_SESSION['notificacoes'])}
+                    {foreach from=$_SESSION['notificacoes'] item=notificacao}
+                        {$notificacao}
+                    {/foreach}
+                {/if}
+            });
 
             $(window).load(function(){
                 limpar_alertas_ajax();

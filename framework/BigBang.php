@@ -143,16 +143,33 @@ class BigBang{
 		}
 
 		$this->file_class_method_parameters =  [
-			'file'       => $arquivo,
-			'class'      => implode('_', array_map('ucfirst', explode('_', $class))),
+			'file'       => isset($arquivo) ? $arquivo : '',
+			'class'      => implode('_', array_map('ucfirst', explode('_', isset($class) ? $class : ''))),
 			'method'     => isset($metodo) ? $metodo : null,
 			'parameters' => isset($method) ? array_values($method) : null
 		];
 	}
 
 	private function error() {
+		$this->file_class_method_parameters = [
+			'file'       => 'modulos/error/controller/error.php',
+			'class'      => 'error',
+			'method'     => 'index',
+			'parameters' => null
+		];
 
-		header('location: /error');
-		exit;
+		$this->validate_execution();
+
+		try{
+			require_once $this->file_class_method_parameters['file'];
+
+			$controller = '\\Controller\\' . $this->file_class_method_parameters['class'];
+			$controller = new $controller;
+			$controller->setPaginaErrada(implode('/', $this->url));
+			$controller->{$this->file_class_method_parameters['method']}($this->file_class_method_parameters['parameters']);
+			exit;
+		}catch(\Erro $e) {
+			$e->show_error(true);
+		}
 	}
 }

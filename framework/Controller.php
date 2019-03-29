@@ -13,7 +13,7 @@ abstract class Controller {
 		$model = explode('\\', get_class($this));
 		$this->model = $this->get_model(strtolower(end($model)));
 
-		// $_SESSION['configuracoes'] = $this->model->full_load_by_id('configuracao', 1)[0];
+		$_SESSION['configuracoes'] = $this->model->full_load_by_id('configuracao', 1)[0];
 		$this->view = new View();
 
 		$this->view->modulo = $this->modulo;

@@ -47,23 +47,21 @@
 <script type="text/javascript">
 $(document).ready(function(){
 
-    {/literal}{if isset($listagem_alternativa) && !empty($listagem_alternativa)}{literal}
-        url = "/{/literal}{$listagem_alternativa}{literal}";
-    {/literal}{else}{literal}
-        url = "/{/literal}{$modulo.modulo}{literal}/carregar_listagem_ajax";
-    {/literal}{/if}{literal}
-
     $('#data_table').DataTable({
         "order": [[ 0, "desc" ]],
         "bProcessing": true,
         "serverSide": true,
         "responsive": true,
         "scrollX": false,
+        "bInfo" : false,
+        "columnDefs": [
+            {"targets": [{/literal}{if isset($datatable.ordenacao_desabilitada) && !empty($datatable.ordenacao_desabilitada)}{$datatable.ordenacao_desabilitada}{else}{/if}{literal}], "orderable": false}
+        ],
         "language": {
             "url": "/public/back/js/DataTable-Portuguese-Brasil.json"
         },
         "ajax":{
-            url : url,
+            url :"/{/literal}{$modulo.modulo}{literal}/carregar_listagem_ajax",
             type: "post",
             error: function(){
             },
@@ -74,8 +72,8 @@ $(document).ready(function(){
 
                     $(this).on('click', function(){
                         swal({
-                            title: "Tem certeza que deseja deletar o registro?",
-                            text: "Está operação é irreversivel e de sua inteira responsabilidade!",
+                            title: $(this).data('mensagem'),
+                            text: "Esta operação é irreversivel e de sua inteira responsabilidade!",
                             type: "warning",
 
                             showCancelButton: true,

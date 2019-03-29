@@ -1,17 +1,63 @@
 {include file='views/back/form_padrao/header.html'}
 
-<div class="form-group col-xs-12 col-sm-12 col-md-6 col-lg-6">
-    <label for="email">Nome do Site * :</label>
-    <input class="form-control" type="text" name="{$modulo.modulo}[email]" value="{if isset($cadastro)}{$cadastro.email}{/if}" required>
-</div>
-<div class="form-group col-xs-12 col-sm-12 col-md-6 col-lg-6">
-    <label for="link">ID Google Analytics * :</label>
-    <input class="form-control" type="text" name="{$modulo.modulo}[link]"  value="{if isset($cadastro)}{$cadastro.link}{/if}" required>
+<div class="row">
+    <div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <label for="email">Nome do Site * :</label>
+        <input class="form-control" type="text" name="{$modulo.modulo}[aplicacao_nome]" value="{if isset($cadastro)}{$cadastro.aplicacao_nome}{/if}" required>
+    </div>
+    <div class="form-group col-xs-12 col-sm-12 col-md-4 col-lg-4">
+        <label for="link">ID Google Analytics * :</label>
+        <input class="form-control" type="text" name="{$modulo.modulo}[id_google_analytics]"  value="{if isset($cadastro)}{$cadastro.id_google_analytics}{/if}" >
+    </div>
+
+    <div class="form-group col-xs-12 col-sm-12 col-md-8 col-lg-8">
+        <label for="link">Email para Notificações * :</label>
+        <input class="form-control validar_email email_unico letras_e_numeros remover_caracteres_especiais" name="{$modulo.modulo}[email]" value="{if isset($cadastro)}{$cadastro.email}{/if}" required>
+    </div>
 </div>
 
-<div class="form-group col-xs-12 col-sm-12 col-md-6 col-lg-6">
-    <label for="link">Email para Notificações * :</label>
-    <input class="form-control validar_email email_unico letras_e_numeros remover_caracteres_especiais" name="{$modulo.modulo}[email]" value="{if isset($cadastro)}{$cadastro.email}{/if}" required>
+
+<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">Texto do Lado Direito do Rodapé</h3>
+        </div>
+        <div class="panel-body">
+            <div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <textarea class="form-control texto_direito_rodape" rows="10" name="{$modulo.modulo}[texto_direito_rodape]">{if isset($cadastro)}{$cadastro.texto_direito_rodape}{/if}</textarea>
+            </div>
+        </div>
+    </div>
 </div>
+<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">Texto do Lado Esquerdo do Rodapé</h3>
+        </div>
+        <div class="panel-body">
+            <div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <textarea class="form-control texto_esquerdo_rodape" rows="10" name="{$modulo.modulo}[texto_esquerdo_rodape]">{if isset($cadastro)}{$cadastro.texto_esquerdo_rodape}{/if}</textarea>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(function() {
+        $(".texto_esquerdo_rodape, .texto_direito_rodape").froalaEditor({
+            toolbarButtons: ['fullscreen', 'undo', 'redo', '|',
+                'bold', 'italic', 'underline', 'strikeThrough', '|',
+                'fontSize', 'fontFamily', 'color', '|',
+                'align', 'formatOL', 'formatUL', 'outdent', 'indent', 'quote',
+
+                '-',
+
+                'insertLink', 'insertHR', '|',
+                'selectAll', 'clearFormatting','spellChecker', '|'
+            ],
+            language: 'pt_br'
+        })
+    });
+</script>
 
 {include file='views/back/form_padrao/footer.html'}

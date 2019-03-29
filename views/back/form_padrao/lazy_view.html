@@ -2,13 +2,17 @@
 <script type='text/javascript'>
     $(window).load(function(){
         $('#lazy_view :input').each(function(){
-            $(this).prop('disabled', true);
-            $(this).select2('disable');
+            if(!$(this).hasClass('lazy_view_ignore')){
+                $(this).prop('disabled', true);
+                $(this).select2('disable');
+            }
         });
 
         $('.lazy_view :input').each(function(){
-            $(this).prop('disabled', true);
-            $(this).select2('disable');
+            if(!$(this).hasClass('lazy_view_ignore')){
+                $(this).prop('disabled', true);
+                $(this).select2('disable');
+            }
         });
 
         $('#modulo').removeAttr('action');

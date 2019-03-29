@@ -10,6 +10,9 @@
                     <div class="row">
                         <div class="form-container col-md-12 col-sm-12 col-xs-12">
                     		<h1 class="title text-center">Pagina Inexistente</h1>
+		                    {if isset($_SESSION.developer) && !empty($_SESSION.developer)}
+								<p class="text-center">/{$pagina_errada}</p>
+                    		{/if}
                             <button type="button" onclick="window.history.back();" class="btn btn-block btn-primary">Voltar</button>
                         </div>
                     </div>
