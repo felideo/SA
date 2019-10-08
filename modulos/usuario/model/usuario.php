@@ -5,57 +5,53 @@ use Libs;
 use \Libs\QueryBuilder\QueryBuilder;
 
 class Usuario extends \Framework\Model{
-
-	public function __construct() {
-		parent::__construct();
-	}
-
 	public function carregar_listagem($busca, $datatable = null){
-		$select = "SELECT"
-			. " 	usuario.id,"
-			. " 	usuario.email,"
-			. " 	usuario.hierarquia,"
-			. " 	usuario.ativo,"
-			. " 	pessoa.nome,"
-			. " 	pessoa.sobrenome"
-			. " FROM"
-			. " 	usuario usuario"
-			. " LEFT JOIN pessoa pessoa ON pessoa.id_usuario = usuario.id AND pessoa.ativo = 1"
-			. " WHERE"
-			. " 	usuario.ativo = 1";
+		$this->query->select('
+				usuario.id,
+				usuario.email,
+				usuario.hierarquia,
+				usuario.bloqueado,
+				pessoa.nome,
+				pessoa.sobrenome
+			')
+			->from('usuario usuario')
+			->leftJoin('pessoa pessoa ON pessoa.id_usuario = usuario.id AND pessoa.ativo = 1')
+			->where('usuario.ativo = 1 AND usuario.oculto = 0');
 
 		if(isset($busca['search']['value']) && !empty($busca['search']['value'])){
-			$select .= " AND usuario.id LIKE '%{$busca['search']['value']}%'";
-			$select .= " OR usuario.email LIKE '%{$busca['search']['value']}%'";
-			$select .= " OR usuario.hierarquia LIKE '%{$busca['search']['value']}%'";
-		}
+			$where = "usuario.id LIKE '%{$busca['search']['value']}%'"
+				. " OR usuario.email LIKE '%{$busca['search']['value']}%'"
+				. " OR CONCAT(pessoa.nome, ' ', pessoa.sobrenome) LIKE '%{$busca['search']['value']}%'";
 
-		if(isset($busca['order'][0])){
-			if($busca['order'][0]['column'] == 0){
-				$select .= " ORDER BY usuario.id {$busca['order'][0]['dir']}";
-			}elseif($busca['order'][0]['column'] == 1){
-				$select .= " ORDER BY usuario.email {$busca['order'][0]['dir']}";
-			}elseif($busca['order'][0]['column'] == 2){
-				$select .= " ORDER BY usuario.hierarquia {$busca['order'][0]['dir']}";
-			}
+			$this->query->andWhere($where);
 		}
 
 		if(isset($busca['start']) && isset($busca['length'])){
-			$select .= " LIMIT {$busca['start']}, {$busca['length']}";
+			$this->query->limit($busca['length']);
+			$this->query->offset($busca['start']);
 		}
 
-		return $this->select($select);
-	}
+		if(isset($busca['order'][0]) && !empty($busca['order'][0])){
+			switch($busca['order'][0]['column']){
+				case '0':
+					$this->query->orderBy("usuario.id {$busca['order'][0]['dir']}");
+					break;
 
-	public function create($table, $data) {
+				case '1':
+					$this->query->orderBy("CONCAT(pessoa.nome, ' ', pessoa.sobrenome) {$busca['order'][0]['dir']}");
+					break;
 
-		$data += [
-			'ativo' => 1,
-		];
+				case '2':
+					$this->query->orderBy("usuario.email {$busca['order'][0]['dir']}");
+					break;
 
-		// $data['senha'] = \Libs\Hash::create('sha1', $data['senha'], HASH_PASSWORD_KEY);
+				default:
+					$this->query->orderBy("usuario.id {$busca['order'][0]['dir']}");
+					break;
+			}
+		}
 
-		return $this->insert($table, $data);
+		return $this->query->fetchArray();
 	}
 
 	public function load_user_by_email($email){
@@ -79,23 +75,20 @@ class Usuario extends \Framework\Model{
 
 	public function load_cadastro($id){
 		return $this->query->select('
-			usuario.*,
-			pessoa.*
-		')
+				usuario.*,
+				pessoa.*,
+			')
 			->from('usuario usuario')
 			->leftJoin('pessoa pessoa ON pessoa.id_usuario = usuario.id AND pessoa.ativo = 1')
-			->where("usuario.id = {$id} AND usuario.ativo = 1")
+			->where("usuario.ativo = 1 AND usuario.id = {$id}")
 			->fetchArray();
 	}
 
 	public function carregar_usuario_por_id($id){
-		$query = new QueryBuilder($this->db);
-		$retorno = $query->select('usuario.*, pessoa.*')
-		->from('usuario usuario')
-		->leftJoin('pessoa pessoa ON pessoa.id_usuario = usuario.id AND pessoa.ativo = 1')
-		->where("usuario.ativo = 1 AND usuario.id = {$id}")
-		->fetchArray('first');
-
-		return $retorno;
+		return $this->query->select('usuario.*, pessoa.*')
+			->from('usuario usuario')
+			->leftJoin('pessoa pessoa ON pessoa.id_usuario = usuario.id AND pessoa.ativo = 1')
+			->where("usuario.ativo = 1 AND usuario.id = {$id}")
+			->fetchArray();
 	}
 }

@@ -132,7 +132,7 @@
 }
 
 .story-section .title {
-    color: #444 !important;
+    color: #D4D4D4 !important;
 }
 
 .story-section .team {
@@ -147,4 +147,64 @@
 .even .fa{
 	font-size: 21px !important;
 	margin: 5px !important;
+}
+
+.collapse-module.collapsed::before {
+    content: "Abrir Painel";
+}
+
+.collapse-module:not(.collapsed)::before {
+    content: "Fechar Painel";
+}
+
+input[type="text"]:disabled{
+    background-color: #FFFFFF;
+    color: #555;
+}
+
+.width100{
+	width: 100%;
+}
+
+.img-responsive.img-circle{
+	width: 20%;
+}
+
+.promo{
+	height: 420px;
+}
+
+table.dataTable thead th.sorting_disabled::after {
+    content: none !important;
+}
+
+.gridly {
+	position: relative;
+	width: 100%;
+}
+
+.brick.linha {
+	margin-left: 15px;
+	width: 90%;
+	border: 1px #dadae7 solid;
+	padding: 0px 7px 7px 7px;
+	border-radius: 5px;
+	cursor: pointer;
+}
+
+.brick.linha label{
+	cursor: pointer;
+}
+
+.fr-code {
+    width: 98%;
+    margin-left: 1%;
+}
+
+.main-nav-wrapper .main-nav .sub-menu li.active a{
+	border-left: 4px solid #40babd;
+}
+
+.main-nav-wrapper .main-nav .sub-menu li.sub-sub-menu a{
+	border-left: none;
 }

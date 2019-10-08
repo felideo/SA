@@ -30,10 +30,10 @@ class Aluno extends \Framework\Model{
 
 		// debug2($id_usuario);
 
-		if($_SESSION['usuario']['hierarquia'] == 5){
+		if($_SESSION['usuario']['super_admin'] != 1 && $_SESSION['usuario']['hierarquia'] == 5){
 			$this->query->andWhere("rel_aluno.id_usuario = {$_SESSION['usuario']['id']}");
-		}elseif((isset($id_usuario) && !empty($id_usuario)) && ($_SESSION['usuario']['hierarquia'] != 1 && $_SESSION['usuario']['hierarquia'] != 2)){
-				$this->query->andWhere("ctdp.id_usuario = {$id_usuario}");
+		}elseif((isset($id_usuario) && !empty($id_usuario)) && ($_SESSION['usuario']['hierarquia'] != 1 && $_SESSION['usuario']['hierarquia'] != 2) && $_SESSION['usuario']['super_admin'] != 1){
+			$this->query->andWhere("ctdp.id_usuario = {$id_usuario}");
 		}
 
 		return $this->query->fetchArray();

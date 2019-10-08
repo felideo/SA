@@ -1,0 +1,513 @@
+<div class="row">
+	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+		<div class="row">
+			<button id="botao_clone_query_builder" type="button" class="btn btn-primary pull-right" style="margin-top: -25px;">Adicionar Nova Regra de Busca</button>
+		</div>
+		<div class="row">
+			<form id="busca_avancada" method="get" action="/busca">
+				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+						<div id="conteiner_clone_query_builder" class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">
+							<div id="box_clone_query_builder_1">
+								<div class="row">
+								    <div class="form-group col-xs-12 col-sm-12 col-md-2 col-lg-2 ">
+								        <label>Atributo</label>
+								        <input id="atributo_pesquisa_1" data-id_container_clone="1" class="width100" type="text" placeholder="" />
+								    </div>
+								    <div class="form-group col-xs-12 col-sm-12 col-md-2 col-lg-2 ">
+								        <label>Comparativo</label>
+								        <input id="comparativo_pesquisa_1" class="width100" type="text" placeholder="" />
+								    </div>
+								    <div id="valores_1" class="form-group col-xs-12 col-sm-12 col-md-4 col-lg-4 col-md-offset-2 col-lg-offset-2">
+								    </div>
+								</div>
+							</div>
+						</div>
+				</div>
+				<!-- <div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-3">
+		            <input type="submit" class="btn btn-block btn-cta btn-cta-primary" value="Buscar">
+		        </div> -->
+		        <div id="inputs_avancados">
+
+		        </div>
+			</form>
+		</div>
+	</div>
+</div>
+
+<div id="clonar_query_builder" class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12" data-id_clone_query_builder="$id_clone_query_builder" style="display: none;">
+	<div id="box_clone_query_builder_$id_clone_query_builder">
+		<div class="row">
+			<div class="form-group col-xs-12 col-sm-12 col-md-2 col-lg-2">
+		        <label>Operador</label>
+		        <input id="operador_pesquisa_$id_clone_query_builder" class="width100" type="text" placeholder="" />
+		    </div>
+		    <div class="form-group col-xs-12 col-sm-12 col-md-2 col-lg-2 ">
+		        <label>Atributo</label>
+		        <input id="atributo_pesquisa_$id_clone_query_builder" data-id_container_clone="$id_clone_query_builder" class="width100" type="text" placeholder="" />
+		    </div>
+		    <div class="form-group col-xs-12 col-sm-12 col-md-2 col-lg-2 ">
+		        <label>Comparativo</label>
+		        <input id="comparativo_pesquisa_$id_clone_query_builder" class="width100" type="text" placeholder="" />
+		    </div>
+		    <div id="valores_$id_clone_query_builder" class="form-group col-xs-12 col-sm-12 col-md-4 col-lg-4 ">
+		        <!-- <label>Valores</label> -->
+		        <!-- <input id="valor_pesquisa_$id_clone_query_builder" class="width100" type="text" placeholder="" /> -->
+		    </div>
+		    <div class="form-group col-xs-12 col-sm-12 col-md-2 col-lg-2 ">
+		        <label class="width100"> </label>
+				<button id="remover_clone_query_builder_$id_clone_query_builder" type="button" class="btn btn-danger pull-right remove-box">Remover</button>
+		    </div>
+		</div>
+	</div>
+</div>
+
+
+<script type="text/javascript">
+	    $(document).ready(function() {
+        $('#busca_avancada').submit(function(){
+            var erro = false;
+
+            qtd_parametros = $("#conteiner_clone_query_builder > div").length + 1;
+
+            for(var i = 0; i < qtd_parametros; i++){
+				if(isset($('#operador_pesquisa_' + i).val())){
+					$('#inputs_avancados').append('<input type="text" name="query[busca_avancada][' + i + '][operador_pesquisa]" value="' + $('#operador_pesquisa_' + i).val() + '">');
+				}
+				if(isset($('#comparativo_pesquisa_' + i).val())){
+					$('#inputs_avancados').append('<input type="text" name="query[busca_avancada][' + i + '][comparativo_pesquisa]" value="' + $('#comparativo_pesquisa_' + i).val() + '">');
+				}
+				if(isset($('#atributo_pesquisa_' + i).val())){
+					$('#inputs_avancados').append('<input type="text" name="query[busca_avancada][' + i + '][atributo_pesquisa]" value="' + $('#atributo_pesquisa_' + i).val() + '">');
+				}
+				if(isset($('#valor_pesquisa_' + i).val())){
+					$('#inputs_avancados').append('<input type="text" name="query[busca_avancada][' + i + '][valor_pesquisa]" value="' + $('#valor_pesquisa_' + i).val() + '">');
+				}
+            }
+
+			console.log($('#operador_pesquisa_1').val());
+			console.log($('#comparativo_pesquisa_1').val());
+			console.log($('#atributo_pesquisa_1').val());
+			console.log($('#valor_pesquisa_1').val())
+
+			// return false;
+   //          if(erro){
+   //              console.log('entrou if erro');
+   //              return false;
+   //          }
+
+            return true;
+        });
+    });
+	String.prototype.replaceAll = function(search, replacement){
+	    var target = this;
+	    return target.split(search).join(replacement);
+	}
+
+    $(document).ready(function(){
+        $('#botao_clone_query_builder').on('click', function(){
+            clone_query_builder_box();
+        });
+
+		atualizar_atributo_pesquisa_select2(1);
+		atualizar_comparativo_pesquisa_select2(1);
+		atualizar_gatilho_atributo_pesquisa(1);
+
+    });
+
+function clone_query_builder_box(){
+	var container_clone    = $('#conteiner_clone_query_builder');
+    var id_container_clone = ($("#conteiner_clone_query_builder > div").length) + 1;
+
+    $('#nenhum_clone_query_builder_adicionado').hide();
+
+    var clone = $('#clonar_query_builder').html();
+    clone     = clone.replaceAll("$id_clone_query_builder", id_container_clone);
+    clone     = clone.replaceAll("disabled", "", clone);
+
+    container_clone.append(clone);
+
+    $('#remover_clone_query_builder_' + id_container_clone).on('click', function(){
+        $('#box_clone_query_builder_' + id_container_clone).remove();
+
+        if($("#conteiner_clone_query_builder > div").length == 0){
+    		$('#nenhum_clone_query_builder_adicionado').show();
+        }
+    });
+
+	atualizar_operador_pesquisa_select2(id_container_clone);
+	atualizar_atributo_pesquisa_select2(id_container_clone);
+	atualizar_comparativo_pesquisa_select2(id_container_clone);
+	atualizar_gatilho_atributo_pesquisa(id_container_clone);
+
+	// atualizar_clone_query_builder_select_2(id_container_clone);
+}
+
+function atualizar_gatilho_atributo_pesquisa(id_container_clone){
+    $('#atributo_pesquisa_' + id_container_clone).on('change', function(){
+    	var id_container_clone = $(this).data('id_container_clone');
+
+    	$('#valores_' + id_container_clone).html('');
+
+    	var input = '<label>Valores</label>'
+	        + '<input id="valor_pesquisa_' + id_container_clone + '" class="width100" type="text" placeholder="Digite para buscar" />'
+
+    	$('#valores_' + id_container_clone).html(input);
+
+    	switch($(this).val()) {
+		    case 'autor':
+		        atualizar_autor_search_select2(id_container_clone);
+		        break;
+	        case 'orientador':
+		        atualizar_orientador_search_select2(id_container_clone);
+		        break;
+		    case 'ano':
+		        atualizar_anos_search_select2(id_container_clone);
+		        break;
+		    case 'curso':
+		        atualizar_curso_search_select2(id_container_clone);
+		        break;
+		    case 'palavra_chave':
+		        atualizar_palavra_search_select2(id_container_clone);
+		        break;
+		    case 'campus':
+		        atualizar_campus_search_select2(id_container_clone);
+		        break;
+		}
+    });
+}
+
+function atualizar_operador_pesquisa_select2(id_container_clone){
+	$('#operador_pesquisa_' + id_container_clone).select2({
+		data: [
+			{
+				'id': 'and',
+				'text': 'E'
+			},
+			{
+				'id': 'or',
+				'text': 'OU'
+			},
+		]
+	});
+}
+
+function atualizar_atributo_pesquisa_select2(id_container_clone){
+	// {
+	// 	'id': 'busca_livre',
+	// 	'text': 'Busca Livre'
+	// },
+
+	$('#atributo_pesquisa_' + id_container_clone).select2({
+		data: [
+			{
+				'id': 'autor',
+				'text': 'Professor'
+			},
+			{
+				'id': 'orientador',
+				'text': 'Aluno'
+			},
+			{
+				'id': 'ano',
+				'text': 'Turma'
+			},
+			{
+				'id': 'curso',
+				'text': 'Cursos'
+			},
+			{
+				'id': 'campus',
+				'text': 'Semestre'
+			}
+		]
+	});
+}
+
+function atualizar_comparativo_pesquisa_select2(id_container_clone){
+	$('#comparativo_pesquisa_' + id_container_clone).select2({
+		data: [
+			{
+				'id': 'igual',
+				'text': 'Igual à'
+			},
+			{
+				'id': 'diferente',
+				'text': 'Diferente de'
+			},
+		]
+	});
+}
+
+function atualizar_clone_query_builder_select_2(id_container_clone){
+	$('.clone_query_builder_select_2_' + id_container_clone).select2({
+		multiple: false,
+		minimumInputLength: 2,
+		ajax: {
+			type: 'POST',
+			url: "/query_builder/buscar_query_builder_select2",
+			dataType: 'json',
+			data: function(term) {
+				// term = (term).replace(/\d+/g,'');
+
+				return {
+					busca: {
+						nome: term,
+						page_limit: 10,
+						cadastrar_busca: true
+					}
+				};
+			},
+			results: function(data) {
+				return {
+					results: data
+				};
+			}
+		},
+		formatResult: function(object) {
+			return object.nome
+		},
+		formatSelection: function(object) {
+			var validar_numero =  object.nome
+			validar_numero = validar_numero.replace_all('<strong>Cadastrar Novo query_builder: </strong>', '');
+
+			if($.isNumeric(validar_numero)){
+				swal("Erro", "Vetada a inserção de numeros no nome do query_builder!", "error");
+				$('.clone_query_builder_select_2_' + id_container_clone).select2("val", "");
+				return false;
+			}
+
+			if(hasNumber(object.nome)){
+				swal("Erro", "O nome do query_builder não pode conter caracteres numericos!", "error");
+			}
+
+			object.nome = (object.nome).replace(/\d+/g,'');
+
+
+			console.log(object.email);
+			if(object.email != ''){
+				$('#email__query_builder_' + id_container_clone).val(object.email);
+			}else{
+				$('#email__query_builder_' + id_container_clone).html('Não cadastrado.');
+			}
+
+			if(object.link != ''){
+				$('#link__query_builder_' + id_container_clone).val(object.link);
+			}else{
+				$('#link__query_builder_' + id_container_clone).html('Não cadastrado.');
+			}
+
+
+
+			if($.isNumeric(object.id)) {
+				$('#email__query_builder_' + id_container_clone).attr('readonly', true);
+				$('#link__query_builder_' + id_container_clone).attr('readonly', true);
+			}else{
+				$('#email__query_builder_' + id_container_clone).removeAttr('readonly');
+				$('#link__query_builder_' + id_container_clone).removeAttr('readonly');
+			}
+
+			return object.nome.replace_all('Cadastrar ', '')
+		}
+	});
+
+	$('.validar_email').change(function(){
+		if($('.validar_email').val() == ''){
+			return false;
+		}
+
+		if (!validar_email($('.validar_email').val())) {
+			swal("Erro", "Digite um email válido!", "error");
+			$('.validar_email').val('');
+		}
+	});
+}
+
+function atualizar_autor_search_select2(id_container_clone){
+	$('#valor_pesquisa_' + id_container_clone).select2({
+		placeholder: $(this).data('placeholder'),
+		multiple: false,
+		minimumInputLength: 2,
+		ajax: {
+			type: 'POST',
+			url: "/autor/buscar_autor_select2",
+			dataType: 'json',
+			data: function(term) {
+				return {
+					busca: {
+						nome: term,
+						page_limit: 10
+					}
+				};
+			},
+			results: function(data) {
+				return {
+					results: data
+				};
+			}
+		},
+		formatResult: function(object) {
+			return object.nome
+		},
+		formatSelection: function(object) {
+			return object.nome
+		}
+	});
+}
+
+function atualizar_orientador_search_select2(id_container_clone){
+	$('#valor_pesquisa_' + id_container_clone).select2({
+		placeholder: $(this).data('placeholder'),
+		multiple: false,
+		minimumInputLength: 2,
+		ajax: {
+			type: 'POST',
+			url: "/orientador/buscar_orientador_select2",
+			dataType: 'json',
+			data: function(term) {
+				return {
+					busca: {
+						nome: term,
+						page_limit: 10
+					}
+				};
+			},
+			results: function(data) {
+				return {
+					results: data
+				};
+			}
+		},
+		formatResult: function(object) {
+			return object.nome
+		},
+		formatSelection: function(object) {
+			return object.nome
+		}
+	});
+}
+
+function atualizar_curso_search_select2(id_container_clone){
+	$('#valor_pesquisa_' + id_container_clone).select2({
+		placeholder: $(this).data('placeholder'),
+		multiple: false,
+		minimumInputLength: 2,
+		ajax: {
+			type: 'POST',
+			url: "/curso/buscar_curso_select2",
+			dataType: 'json',
+			data: function(term) {
+				return {
+					busca: {
+						nome: term,
+						page_limit: 10
+					}
+				};
+			},
+			results: function(data) {
+				return {
+					results: data
+				};
+			}
+		},
+		formatResult: function(object) {
+			return object.curso
+		},
+		formatSelection: function(object) {
+			return object.curso
+		}
+	});
+}
+
+function atualizar_campus_search_select2(id_container_clone){
+	$('#valor_pesquisa_' + id_container_clone).select2({
+		placeholder: $(this).data('placeholder'),
+		multiple: false,
+		minimumInputLength: 2,
+		ajax: {
+			type: 'POST',
+			url: "/campus/buscar_campus_select2",
+			dataType: 'json',
+			data: function(term) {
+				return {
+					busca: {
+						nome: term,
+						page_limit: 10
+					}
+				};
+			},
+			results: function(data) {
+				return {
+					results: data
+				};
+			}
+		},
+		formatResult: function(object) {
+			return object.campus
+		},
+		formatSelection: function(object) {
+			return object.campus
+		}
+	});
+}
+
+function atualizar_palavra_search_select2(id_container_clone){
+	$('#valor_pesquisa_' + id_container_clone).select2({
+		placeholder: $(this).data('placeholder'),
+		multiple: false,
+		minimumInputLength: 2,
+		ajax: {
+			type: 'POST',
+			url: "/palavra_chave/buscar_palavra_chave_select2",
+			dataType: 'json',
+			data: function(term) {
+				return {
+					busca: {
+						nome: term,
+						page_limit: 10
+					}
+				};
+			},
+			results: function(data) {
+				return {
+					results: data
+				};
+			}
+		},
+		formatResult: function(object) {
+			return object.palavra_chave
+		},
+		formatSelection: function(object) {
+			return object.palavra_chave
+		}
+	});
+}
+
+function atualizar_anos_search_select2(id_container_clone){
+	$('#valor_pesquisa_' + id_container_clone).select2({
+		data: {json_encode($anos)},
+		multiple: false
+	});
+};
+
+{if isset($cadastro.trabalho_relaciona_query_builder) && !empty($cadastro.trabalho_relaciona_query_builder)}
+	var query_builderes = {json_encode($cadastro.trabalho_relaciona_query_builder)};
+
+	$.each(query_builderes, function(index, item){
+		id_container_clone = index + 1;
+
+		var query_builder = item['query_builder'][0];
+
+		clone_query_builder_box();
+
+	    $('#query_builder_' + id_container_clone).select2(
+	        'data', {
+	            id: query_builder['id'],
+	            nome: query_builder['nome']
+	        }
+	    );
+
+		$('#link__query_builder_' + id_container_clone).val(query_builder['link']);
+		$('#email__query_builder_' + id_container_clone).val(query_builder['email']);
+    });
+{/if}
+</script>

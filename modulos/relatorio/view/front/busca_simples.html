@@ -1,0 +1,11 @@
+<div class="row">
+    <form method="get" action="/busca">
+	    <div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-9 ">
+	        <label class="" for="cname">Busca Textual</label>
+	        <input type="text" class="form-control" name="query[busca_textual]" placeholder="Buscar trabalhos pelo conteudo" value="{if isset($query) && !empty($query)}{$query}{/if}" />
+	    </div>
+	    <div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-3">
+            <input type="submit" class="btn btn-block btn-cta btn-cta-primary" value="Buscar">
+        </div>
+    </form>
+</div>
