@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "13800e1460defbf777f84a4a4bedcbce",
+    "hash": "4a9269a148a8653bda7af98fbd78323f",
     "content-hash": "3e871d15259b43419679e6e25ae1737a",
     "packages": [
         {
@@ -13,12 +13,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/dwoo-project/dwoo.git",
-                "reference": "5cd5327fe610b238a72875b3a59d505fccabaec4"
+                "reference": "c6c487c3b41a6c812c271f751b1c7770a1000ecb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dwoo-project/dwoo/zipball/5cd5327fe610b238a72875b3a59d505fccabaec4",
-                "reference": "5cd5327fe610b238a72875b3a59d505fccabaec4",
+                "url": "https://api.github.com/repos/dwoo-project/dwoo/zipball/c6c487c3b41a6c812c271f751b1c7770a1000ecb",
+                "reference": "c6c487c3b41a6c812c271f751b1c7770a1000ecb",
                 "shasum": ""
             },
             "require": {
@@ -44,7 +44,8 @@
                 }
             ],
             "description": "Dwoo is a PHP5/PHP7 template engine which is (almost) fully compatible with Smarty templates and plugins, but is written from scratch for PHP5, and adds many features.",
-            "time": "2018-04-18 14:14:10"
+            "abandoned": "twig/twig",
+            "time": "2018-07-25 13:21:21"
         }
     ],
     "packages-dev": [],
